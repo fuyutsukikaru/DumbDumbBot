@@ -2,7 +2,7 @@ var twitterAPI = require('node-twitter-api');
 var twitter = new twitterAPI({
     consumerKey: 'UpLGlKYtyXazTprfksMcdBoCC',
     consumerSecret: 'W1dUC3W2LoM7ifzeCqLRgBECiRHh2xCiLHX2khVGsiNfKhHiK7',
-    callback: 'http://127.0.0.1:8080/auth/twitter/callback'
+    callback: 'http://aqueous-ridge-7838.herokuapp.com/callback'
 });
 
 function login(req, res) {
