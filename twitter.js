@@ -51,3 +51,5 @@ function callback(req, res) {
 }
 
 exports.twitter = twitter;
+exports.login = login;
+exports.callback = callback;
