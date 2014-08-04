@@ -3,6 +3,10 @@
   "description": "It's a bot",
   "version": "0.0.1",
   "main": "run.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fuyutsukikaru/DumbDumbBot.git"
+  },
   "dependencies": {
     "irc": ">=0.3.6",
     "node-twitter-api": ">=1.2.3",
