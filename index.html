@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>Update your twitter status</title>
+	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript">
+		var twitter_window,
+			  interval;
+		function openTwitterWindow() {
+			 twitter_window = window.open('./login', 'window', 'status=0,menubar=0,resizable=1,width=500,height=800;');
+
+			 interval = window.setInterval((function() {
+			 	if (twitter_window.closed) {
+			 		window.clearInterval(interval);
+          //window.location = './tweetpic';
+			 	}
+			 }),1000);
+		}
+	</script>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+<body>
+
+<h1 id="header">Update twitter status</h1>
+<div id="login">
+	<a href="#" id="login" onclick="openTwitterWindow();">Login to Twitter</a>
+</div>
+
+</body>
+</html>
