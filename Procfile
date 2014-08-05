@@ -1,1 +1,1 @@
-web: node --debug=$6667 run.js
+web: node --debug=5000 run.js
