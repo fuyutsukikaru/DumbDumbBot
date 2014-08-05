@@ -14,7 +14,7 @@ module.exports = function(bot) {
     var arr = text.split(" ", 2);
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
-    if (command == "!hi") {
+    if (command == "!hi" || command == "!sup") {
       bot.say(to, "Hello, " + from);
       console.log("Success");
     }
@@ -25,6 +25,7 @@ module.exports = function(bot) {
       var number = rest;
       if (number <= 15) {
         bot.say(to, "Starting!");
+        setTimeout(counter, 500);
         (function counter() {
           if (number > 0) {
             bot.say(to, number);
@@ -34,6 +35,8 @@ module.exports = function(bot) {
           else
             bot.say(to, "GO!");
         })();
+      } else if (rest == "next tourney") {
+        bot.say(to, "Never.");
       } else {
         bot.say(to, "Hi, I'm too dumb to count from that high.");
       }
