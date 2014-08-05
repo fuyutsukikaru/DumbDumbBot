@@ -11,7 +11,7 @@ module.exports = function(bot) {
   });
   // Listen for any message, say to him/her in the room
   bot.addListener("message", function(from, to, text, message) {
-    var arr = text.split();
+    var arr = text.split(" ", 2);
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
     if (command == "!hi") {
