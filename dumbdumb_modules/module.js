@@ -25,7 +25,6 @@ module.exports = function(bot) {
       var number = rest;
       if (number <= 15) {
         bot.say(to, "Starting!");
-        setTimeout(counter, 500);
         (function counter() {
           if (number > 0) {
             bot.say(to, number);
