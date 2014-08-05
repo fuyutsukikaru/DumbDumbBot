@@ -51,6 +51,8 @@ function callback(req, res) {
 }
 
 function tweet(message, bot, receiver) {
+  var len = message.length;
+
   twitter.statuses("update", {
     status: message
   },
@@ -60,7 +62,12 @@ function tweet(message, bot, receiver) {
     if (error) {
       // something went wrong
       console.log("Something happened here");
-      bot.say(receiver, "Tweet failed to send, try again.");
+      if (len > 140) {
+        bot.say(receiver, "Tweet failed to send, over 140 characters.");
+      }
+      else {
+        bot.say(receiver, "Tweet failed to send, try again.");
+      }
     } else {
       // data contains the data sent by twitter
       console.log("Sent successfully!");
