@@ -6,7 +6,7 @@ module.exports = function(bot) {
       bot.say(channel, "HI " + nick.toUpperCase());
     }
     if (nick == "LoliSenpai" || nick == "Restinya") {
-      bot.say(channel, "Go away Nick");
+      bot.say(channel, "Go away Nick, you're dumber than me.");
     }
   });
   // Listen for any message, say to him/her in the room
@@ -66,6 +66,14 @@ module.exports = function(bot) {
     }
     else if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
+    }
+    else if (command == "!petite") {
+      if (from == "DDK") {
+        bot.say(to, "I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*");
+      }
+      else {
+        bot.say(to, "I'm not a lolicon, I just like petite girls!");
+      }
     }
     else if (command == "!help") {
       bot.say(to, "Enter !hi or !sup to have DumbDumbBot greet you!");
