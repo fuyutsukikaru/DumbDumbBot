@@ -68,5 +68,12 @@ module.exports = function(bot) {
     else if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
     }
+    else if (command == "!help") {
+      bot.say(to, "Enter !hi or !sup to have DumbDumbBot greet you!");
+      bot.say(to, "Enter !goaway to have DumbDumbBot be rude to a person.");
+      bot.say(to, "Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15.");
+      bot.say(to, "Enter !tweet <Message to send> to post a tweet.");
+      bot.say(to, "Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today.");
+    }
   });
 };
