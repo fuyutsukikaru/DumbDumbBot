@@ -1,4 +1,4 @@
-var twitter = require('../twitter.js') //OAuth-related functions
+var twitter = require('../twitter.js');
 
 module.exports = function(bot) {
   bot.addListener("join", function(channel, nick, message) {
@@ -63,21 +63,7 @@ module.exports = function(bot) {
       bot.say(to, "Today you should try going for " + yakuman[hash]);
     }
     else if (command == "!tweet") {
-      twitter.statuses("update", {
-        status: rest
-      },
-      twitter.token,
-      twitter.secret,
-      function(error, data, response) {
-        if (error) {
-          // something went wrong
-          console.log("Something happened here");
-        } else {
-          // data contains the data sent by twitter
-          console.log("Sent successfully!");
-        }
-      }
-    );
-  }
-});
+      twitter.tweet(rest);
+    }
+  });
 };

@@ -2,6 +2,7 @@ var twitterAPI = require('node-twitter-api');
 var twitter = new twitterAPI({
     consumerKey: 'UpLGlKYtyXazTprfksMcdBoCC',
     consumerSecret: 'W1dUC3W2LoM7ifzeCqLRgBECiRHh2xCiLHX2khVGsiNfKhHiK7',
+    //callback: 'http://127.0.0.1:5000/callback'
     callback: 'http://aqueous-ridge-7838.herokuapp.com/callback'
 });
 
@@ -20,6 +21,9 @@ function login(req, res) {
   });
 }
 
+var token;
+var secret;
+
 function callback(req, res) {
   if (req.session.oauth !== undefined) {
     req.session.oauth.verifier = req.query.oauth_verifier;
@@ -31,18 +35,14 @@ function callback(req, res) {
         res.end("Error occured with callback: "+ error);
       } else {
         console.log("Got even here");
+        token = accessToken;
+        secret = accessTokenSecret;
         req.session.oauth.access_token = accessToken;
         req.session.oauth.access_token_secret = accessTokenSecret;
         req.session.oauth.screen_name = results.screen_name;
 
-        exports.token = req.session.oauth.access_token;
-        exports.secret = req.session.oauth.access_token_secret;
-
         console.log("Logged in to Twitter");
         console.log(results);
-
-        res.send("Authentication Successful");
-        res.redirect('/');
       }
     });
   } else {
@@ -50,6 +50,24 @@ function callback(req, res) {
   }
 }
 
-exports.twitter = twitter;
+function tweet(message) {
+  twitter.statuses("update", {
+    status: message
+  },
+  token,
+  secret,
+  function(error, data, response) {
+    if (error) {
+      // something went wrong
+      console.log("Something happened here");
+    } else {
+      // data contains the data sent by twitter
+      console.log("Sent successfully!");
+    }
+  }
+  );
+}
+
+exports.tweet = tweet;
 exports.login = login;
 exports.callback = callback;
