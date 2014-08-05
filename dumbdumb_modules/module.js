@@ -1,5 +1,10 @@
 var twitter = require('../twitter.js');
 var sakis = require('../sakis.js');
+var irc = require("irc");
+
+function colorize(text) {
+  return irc.colors.wrap("light_magenta", text, "light_magenta");
+};
 
 module.exports = function(bot) {
   bot.addListener("ping", function(server) {
@@ -7,10 +12,10 @@ module.exports = function(bot) {
   });
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
-      bot.say(channel, "HI " + nick.toUpperCase());
+      bot.say(channel, colorize("HI " + nick.toUpperCase()));
     }
     if (nick == "LoliSenpai" || nick == "Restinya") {
-      bot.say(channel, "Go away Nick, you're dumber than me.");
+      bot.say(channel, colorize("Go away Nick, you're dumber than me."));
     }
   });
   // Listen for any message, say to him/her in the room
@@ -19,37 +24,39 @@ module.exports = function(bot) {
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
     if (command == "!hi" || command == "!sup") {
-      bot.say(to, "Hello, " + from);
+      bot.say(to, colorize("Hello, " + from));
       console.log("Success");
     }
     else if (command == "!goaway") {
-      bot.say(to, "Go away " + rest);
+      bot.say(to, colorize("Go away " + rest));
     }
     else if (command == "!countdown") {
       var number = rest;
       if (number <= 15) {
-        bot.say(to, "Starting!");
+        bot.say(to, colorize("Starting!"));
         (function counter() {
           if (number > 0) {
-            bot.say(to, number);
+            bot.say(to, colorize(number));
             number--;
             setTimeout(counter, 1000);
           }
           else
-            bot.say(to, "GO!");
+            bot.say(to, colorize("GO!"));
         })();
       } else if (rest == "next tourney") {
-        bot.say(to, "Never.");
+        bot.say(to, colorize("Never."));
       } else {
-        bot.say(to, "Hi, I'm too dumb to count from that high.");
+        bot.say(to, colorize("Hi, I'm too dumb to count from that high."));
       }
     }
     else if (command == "!yakuman") {
       var len = from.length;
+      var first = parseInt(from.charAt(0));
+      var last = parseInt(from.charAt(len-1));
       var d = new Date();
-      var date = d.getDate();
-      var day = d.getDay();
-      var val = len * date * day;
+      var date = parseInt(d.getDate());
+      var day = parseInt(d.getDay());
+      var val = len * (date + first) * (day + last);
       var hash = val % 13;
       var yakuman = [
         "Kokushi Musou",
@@ -66,54 +73,58 @@ module.exports = function(bot) {
         "Chiihou",
         "Renhou"
       ];
-      bot.say(to, "Today you should try going for " + yakuman[hash]);
+      bot.say(to, colorize("Today you should try going for " + yakuman[hash]));
     }
     else if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
     }
     else if (command == "!petite") {
       if (from == "DDK") {
-        bot.say(to, "I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*");
+        bot.say(to, colorize("I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*"));
       }
-      else {
-        bot.say(to, "I'm not a lolicon, I just like petite girls!");
+      else if (from == "LoliSenpai" || from == "Restinya") {
+        bot.say(to, colorize("I'm a lolicon! XD"));
+      } else {
+        bot.say(to, colorize("I'm not a lolicon, I just like petite girls!"));
       }
     }
     else if (command == "!remind") {
       var time = arr[1];
       if (time == parseInt(time)) {
         var reminder = text.substr(text.indexOf(' ') + 2);
-        bot.say(to, "Reminder set for " + from);
-        setTimeout(function() { bot.say(to, from + ": " + reminder); }, 60000 * time);
+        bot.say(to, colorize("Reminder set for " + from));
+        setTimeout(function() { bot.say(to, colorize(from + ": " + reminder)); }, 60000 * time);
       } else {
-        bot.say(to, "Need to set a valid number for minutes!");
+        bot.say(to, colorize("Need to set a valid number for minutes!"));
       }
     }
     else if (command == "!saki") {
       var characters = sakis.characters;
       var len = from.length;
+      var first = parseInt(from.charAt(0));
+      var last = parseInt(from.charAt(len-1));
       var d = new Date();
-      var date = d.getDate();
-      var day = d.getDay();
-      var val = len * date * day;
+      var date = parseInt(d.getDate());
+      var day = parseInt(d.getDay());
+      var val = len * (date + first) * (day + last);
       var hash = val % 176;
       var saki = characters[hash];
-      bot.say(to, "Your spirit Saki today is " + saki);
+      bot.say(to, colorize("Your spirit Saki today is " + saki));
       var chars = saki.split(" ", 2);
       if (!chars[1]) {
-        bot.say(to, "http://saki.wikia.com/wiki/" + chars[0]);
+        bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0]));
       } else {
-        bot.say(to, "http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]);
+        bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
     else if (command == "!help") {
-      bot.say(to, "Enter !hi or !sup to have DumbDumbBot greet you!");
-      bot.say(to, "Enter !goaway <name of person> to have DumbDumbBot be rude to a person.");
-      bot.say(to, "Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15.");
-      bot.say(to, "Enter !reminder <minutes> <message> to have DumbDumbBot remind you of things.");
-      bot.say(to, "Enter !tweet <message to send> to post a tweet.");
-      bot.say(to, "Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today.");
-      bot.say(to, "Enter !saki to get your spiritual Saki of the day.");
+      bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
+      bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
+      bot.say(to, colorize("Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15."));
+      bot.say(to, colorize("Enter !reminder <minutes> <message> to have DumbDumbBot remind you of things."));
+      bot.say(to, colorize("Enter !tweet <message to send> to post a tweet."));
+      bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
+      bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
     }
   });
 };
