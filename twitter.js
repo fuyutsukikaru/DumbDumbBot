@@ -50,7 +50,7 @@ function callback(req, res) {
   }
 }
 
-function tweet(message) {
+function tweet(message, bot, receiver) {
   twitter.statuses("update", {
     status: message
   },
@@ -60,9 +60,11 @@ function tweet(message) {
     if (error) {
       // something went wrong
       console.log("Something happened here");
+      bot.say(receiver, "Tweet failed to send, try again.");
     } else {
       // data contains the data sent by twitter
       console.log("Sent successfully!");
+      bot.say(receiver, "\"" + message + "\" was sent successfully!");
     }
   }
   );

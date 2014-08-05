@@ -62,7 +62,7 @@ module.exports = function(bot) {
       bot.say(to, "Today you should try going for " + yakuman[hash]);
     }
     else if (command == "!tweet") {
-      twitter.tweet(rest);
+      twitter.tweet(rest, bot, to);
     }
   });
 };
