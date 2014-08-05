@@ -51,11 +51,11 @@ module.exports = function(bot) {
     }
     else if (command == "!yakuman") {
       var len = from.length;
-      var first = parseInt(from.charAt(0));
-      var last = parseInt(from.charAt(len-1));
+      var first = from.charCodeAt(0);
+      var last = from.charCodeAt(len-1);
       var d = new Date();
-      var date = parseInt(d.getDate());
-      var day = parseInt(d.getDay());
+      var date = d.getDate();
+      var day = d.getDay();
       var val = len * (date + first) * (day + last);
       var hash = val % 13;
       var yakuman = [
@@ -101,11 +101,11 @@ module.exports = function(bot) {
     else if (command == "!saki") {
       var characters = sakis.characters;
       var len = from.length;
-      var first = parseInt(from.charAt(0));
-      var last = parseInt(from.charAt(len-1));
+      var first = from.charCodeAt(0);
+      var last = from.charCodeAt(len-1);
       var d = new Date();
-      var date = parseInt(d.getDate());
-      var day = parseInt(d.getDay());
+      var date = d.getDate();
+      var day = d.getDay();
       var val = len * (date + first) * (day + last);
       var hash = val % 176;
       var saki = characters[hash];
