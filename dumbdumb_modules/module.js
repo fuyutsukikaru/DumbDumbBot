@@ -14,8 +14,11 @@ module.exports = function(bot) {
     if (nick == "Meball") {
       bot.say(channel, colorize("HI " + nick.toUpperCase()));
     }
-    if (nick == "LoliSenpai" || nick == "Restinya") {
+    else if (nick == "LoliSenpai" || nick == "Restinya") {
       bot.say(channel, colorize("Go away Nick, you're dumber than me."));
+    }
+    else if (nick == "McNagah") {
+      bot.say(channel, colorize("HI NUGGY I LOVE YOU."));
     }
   });
   // Listen for any message, say to him/her in the room
@@ -109,6 +112,20 @@ module.exports = function(bot) {
       var val = len * (date + first) * (day + last);
       var hash = val % 176;
       var saki = characters[hash];
+      if (from == "Dolphy" || from == "CureRMN") {
+        hash = val % 2;
+        if (hash == 0)
+          saki = characters[2];
+        else if (hash == 1)
+          saki = characters[105];
+      }
+      else if (from == "fuyutsukikaru") {
+        hash = val % 2;
+        if (hash == 0)
+          saki = characters[96];
+        else if (hash == 1)
+          saki = characters[5];
+      }
       bot.say(to, colorize("Your spirit Saki today is " + saki));
       var chars = saki.split(" ", 2);
       if (!chars[1]) {
@@ -121,7 +138,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
       bot.say(to, colorize("Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15."));
-      bot.say(to, colorize("Enter !reminder <minutes> <message> to have DumbDumbBot remind you of things."));
+      bot.say(to, colorize("Enter !remind <minutes> <message> to have DumbDumbBot remind you of things."));
       bot.say(to, colorize("Enter !tweet <message to send> to post a tweet."));
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
