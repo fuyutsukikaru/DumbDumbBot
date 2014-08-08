@@ -76,7 +76,10 @@ module.exports = function(bot) {
         "Chiihou",
         "Renhou"
       ];
-      bot.say(to, colorize("Today you should try going for " + yakuman[hash]));
+      if (from == "Restinya" || from == "LoliSenpai") {
+        bot.say(to, colorize("Today you should try going for pinfu so you can finally learn what it is."));
+      } else
+        bot.say(to, colorize("Today you should try going for " + yakuman[hash]));
     }
     else if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
@@ -134,6 +137,12 @@ module.exports = function(bot) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
+    else if (command == "!roulette") {
+      var choices = rest.split(" ");
+      var options = choices.length;
+      var random = Math.floor((Math.random() * options));
+      bot.say(to, colorize("I choose " + choices[random]));
+    }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
@@ -142,6 +151,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !tweet <message to send> to post a tweet."));
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
+      bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
     }
   });
 };
