@@ -1,5 +1,6 @@
 var twitter = require('../twitter.js');
 var sakis = require('../sakis.js');
+var faces = require('../face.js');
 var irc = require("irc");
 
 function colorize(text) {
@@ -27,7 +28,7 @@ module.exports = function(bot) {
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
     if (command == "!hi" || command == "!sup") {
-      bot.say(to, colorize("Hello, " + from));
+      bot.say(to, colorize("HI " + from.toUpperCase()));
       console.log("Success");
     }
     else if (command == "!goaway") {
@@ -49,7 +50,7 @@ module.exports = function(bot) {
       } else if (rest == "next tourney") {
         bot.say(to, colorize("Never."));
       } else {
-        bot.say(to, colorize("Hi, I'm too dumb to count from that high."));
+        bot.say(to, colorize("I'm too dumb to count from that high."));
       }
     }
     else if (command == "!yakuman") {
@@ -101,7 +102,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("Reminder set for " + from));
         setTimeout(function() { bot.say(to, colorize(from + ": " + reminder)); }, 60000 * time);
       } else {
-        bot.say(to, colorize("Need to set a valid number for minutes!"));
+        bot.say(to, colorize("Need to set a valid number of minutes!"));
       }
     }
     else if (command == "!saki") {
@@ -143,6 +144,22 @@ module.exports = function(bot) {
       var random = Math.floor((Math.random() * options));
       bot.say(to, colorize("I choose " + choices[random]));
     }
+    else if (command == "!:O") {
+      var surprise = faces.surprise;
+      var rows = surprise.length;
+      var n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(surprise[n]));
+      }
+    }
+    else if (command == "!:(") {
+      var sad = faces.sad;
+      var rows = sad.length;
+      var n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(sad[n]));
+      }
+    }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
@@ -152,6 +169,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
       bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
+      bot.say(to, colorize("Enter !:O or !:( to have DumbDumbBot express its emotions."));
     }
   });
 };
