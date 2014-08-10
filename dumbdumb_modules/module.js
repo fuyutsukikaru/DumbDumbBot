@@ -154,6 +154,13 @@ module.exports = function(bot) {
       var random = Math.floor((Math.random() * options));
       bot.say(to, colorize("I choose " + choices[random]));
     }
+    else if (command == "!senpai") {
+      var random = Math.floor((Math.random() * 10));
+      if (random == 0)
+        bot.say(to, colorize("Senpai noticed you!"));
+      else
+        bot.say(to, colorize("Senpai will never notice you..."));
+    }
     else if (command == "!:O") {
       var surprise = faces.surprise;
       var rows = surprise.length;
@@ -183,6 +190,7 @@ module.exports = function(bot) {
     }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
+      bot.say(to, colorize("Enter !bye to have DumbDumbBot see you off!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
       bot.say(to, colorize("Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15."));
       bot.say(to, colorize("Enter !remind <minutes> <message> to have DumbDumbBot remind you of things."));
@@ -190,6 +198,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
       bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
+      bot.say(to, colorize("Enter !senpai to ask DumbDumbBot if senpai has noticed you."));
       bot.say(to, colorize("Enter !:O, !:(, or !XD to have DumbDumbBot express its emotions."));
     }
   });
