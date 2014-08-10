@@ -33,14 +33,21 @@ module.exports = function(bot) {
       if (from == "DDK") {
         bot.say(to, colorize("H-Hi " + from));
       } else {
-        bot.say(to, colorize("HI " + from.toUpperCase()));
+        if (tsundere)
+          bot.say(to, colorize("I-It's not liked I wanted to see you or anything " + from));
+        else
+          bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
     else if (command == "!tsundere") {
-      if (rest == "yes")
+      if (rest == "on") {
         tsundere = true;
-      else if (rest == "no")
+        bot.say(to, colorize("DumbDumbBot is now a tsundere!"));
+      }
+      else if (rest == "off") {
         tsundere = false;
+        bot.say(to, colorize("DumbDumbBot is got over its tsundere phase."));
+      }
     }
     else if (command == "!goaway") {
       if (tsundere)
@@ -54,7 +61,10 @@ module.exports = function(bot) {
     else if (command == "!countdown") {
       var number = rest;
       if (number <= 15) {
-        bot.say(to, colorize("Starting!"));
+        if (tsundere)
+          bot.say(to, colorize("W-Why do I have to do that for you? F-Fine, starting!"));
+        else
+          bot.say(to, colorize("Starting!"));
         (function counter() {
           if (number > 0) {
             bot.say(to, colorize(number));
@@ -108,8 +118,14 @@ module.exports = function(bot) {
       else if (from == "LoliSenpai" || from == "Restinya") {
         bot.say(to, colorize("I'm a lolicon! XD"));
       } else {
-        bot.say(to, colorize("I'm not a lolicon, I just like petite girls!"));
+        if (tsundere)
+          bot.say(to, colorize("I-It's not like I like lolis or anything, stupid, I just like them petite!"));
+        else
+          bot.say(to, colorize("I'm not a lolicon, I just like petite girls!"));
       }
+    }
+    else if (command == "!lolicon") {
+      bot.say(to, colorize("No just lol-"));
     }
     else if (command == "!remind") {
       var time = arr[1];
@@ -166,10 +182,18 @@ module.exports = function(bot) {
     }
     else if (command == "!senpai") {
       var random = Math.floor((Math.random() * 10));
-      if (random == 0)
-        bot.say(to, colorize("Senpai noticed you!"));
-      else
-        bot.say(to, colorize("Senpai will never notice you..."));
+      if (random == 0) {
+        if (tsundere)
+          bot.say(to, colorize("B-Baka! S-Senpai noticed you..."));
+        else
+          bot.say(to, colorize("Senpai noticed you!"));
+      }
+      else {
+        if (tsundere)
+          bot.say(to, colorize("H-Hmph! S-So what if senpai didn't notice you?"));
+        else
+          bot.say(to, colorize("Senpai will never notice you..."));
+      }
     }
     else if (command == "!:O") {
       var surprise = faces.surprise;
@@ -196,7 +220,10 @@ module.exports = function(bot) {
       }
     }
     else if (command == "!:)") {
-      bot.say(to, colorize("I want to protect that smile for the one I truly love."));
+      if (tsundere)
+        bot.say(to, colorize("I-It's not like I'm saving that smile for somebody or anything!!!"));
+      else
+        bot.say(to, colorize("I want to protect that smile for the one I truly love."));
     }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
