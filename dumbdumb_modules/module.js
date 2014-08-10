@@ -172,7 +172,7 @@ module.exports = function(bot) {
     }
     else if (command == "!XD") {
       var XD = faces.XD;
-      var rows = sad.length;
+      var rows = XD.length;
       var n;
       for (n = 0; n < rows; n++) {
         bot.say(to, colorize(XD[n]));
