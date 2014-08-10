@@ -3,6 +3,8 @@ var sakis = require('../sakis.js');
 var faces = require('../face.js');
 var irc = require("irc");
 
+var tsundere = false;
+
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
@@ -34,8 +36,17 @@ module.exports = function(bot) {
         bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
+    else if (command == "!tsundere") {
+      if (rest == "yes")
+        tsundere = true;
+      else if (rest == "no")
+        tsundere = false;
+    }
     else if (command == "!goaway") {
-      bot.say(to, colorize("Go away " + rest));
+      if (tsundere)
+        bot.say(to, colorize("I-It's not like I want you to go or anything " + rest));
+      else
+        bot.say(to, colorize("Go away " + rest));
     }
     else if (command == "!bye") {
       bot.say(to, colorize("BYE " + from.toUpperCase()));
@@ -53,11 +64,10 @@ module.exports = function(bot) {
           else
             bot.say(to, colorize("GO!"));
         })();
-      } else if (rest == "next tourney") {
+      } else if (rest == "next tourney")
         bot.say(to, colorize("Never."));
-      } else {
+      else
         bot.say(to, colorize("I'm too dumb to count from that high."));
-      }
     }
     else if (command == "!yakuman") {
       var len = from.length;
