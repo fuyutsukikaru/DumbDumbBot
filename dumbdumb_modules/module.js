@@ -28,11 +28,17 @@ module.exports = function(bot) {
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
     if (command == "!hi" || command == "!sup") {
-      bot.say(to, colorize("HI " + from.toUpperCase()));
-      console.log("Success");
+      if (from == "DDK") {
+        bot.say(to, colorize("H-Hi " + from));
+      } else {
+        bot.say(to, colorize("HI " + from.toUpperCase()));
+      }
     }
     else if (command == "!goaway") {
       bot.say(to, colorize("Go away " + rest));
+    }
+    else if (command == "!bye") {
+      bot.say(to, colorize("BYE " + from.toUpperCase()));
     }
     else if (command == "!countdown") {
       var number = rest;
@@ -128,9 +134,13 @@ module.exports = function(bot) {
         if (hash == 0)
           saki = characters[96];
         else if (hash == 1)
-          saki = characters[5];
+          saki = characters[3];
       }
-      bot.say(to, colorize("Your spirit Saki today is " + saki));
+      if (saki == "Maho Yumeno" || saki == "Kaori Senoo") {
+        bot.say(to, colorize("Your spirit Saki today is the worst Saki, " + saki));
+      } else {
+        bot.say(to, colorize("Your spirit Saki today is " + saki));
+      }
       var chars = saki.split(" ", 2);
       if (!chars[1]) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0]));
@@ -160,6 +170,17 @@ module.exports = function(bot) {
         bot.say(to, colorize(sad[n]));
       }
     }
+    else if (command == "!XD") {
+      var XD = faces.XD;
+      var rows = sad.length;
+      var n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(XD[n]));
+      }
+    }
+    else if (command == "!:)") {
+      bot.say(to, colorize("I want to protect that smile for the one I truly love."));
+    }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));
@@ -169,7 +190,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
       bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
-      bot.say(to, colorize("Enter !:O or !:( to have DumbDumbBot express its emotions."));
+      bot.say(to, colorize("Enter !:O, !:(, or !XD to have DumbDumbBot express its emotions."));
     }
   });
 };
