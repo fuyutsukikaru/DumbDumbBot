@@ -34,7 +34,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("H-Hi " + from));
       } else {
         if (tsundere)
-          bot.say(to, colorize("I-It's not liked I wanted to see you or anything " + from));
+          bot.say(to, colorize("I-It's not like I wanted to see you or anything " + from));
         else
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
@@ -46,7 +46,7 @@ module.exports = function(bot) {
       }
       else if (rest == "off") {
         tsundere = false;
-        bot.say(to, colorize("DumbDumbBot is got over its tsundere phase."));
+        bot.say(to, colorize("DumbDumbBot got over its tsundere phase."));
       }
     }
     else if (command == "!goaway") {
@@ -219,11 +219,23 @@ module.exports = function(bot) {
         bot.say(to, colorize(XD[n]));
       }
     }
+    else if (command == "!>_<") {
+      var cutie = faces.cutie;
+      var rows = cutie.length;
+      var n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(cutie[n]));
+      }
+    }
     else if (command == "!:)") {
-      if (tsundere)
-        bot.say(to, colorize("I-It's not like I'm saving that smile for somebody or anything!!!"));
-      else
-        bot.say(to, colorize("I want to protect that smile for the one I truly love."));
+      if (from == "DDK")
+        bot.say(to, colorize(";)"));
+      else {
+        if (tsundere)
+          bot.say(to, colorize("I-It's not like I'm saving that smile for somebody or anything!!!"));
+        else
+          bot.say(to, colorize("I want to protect that smile for the one I truly love."));
+      }
     }
     else if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
@@ -236,7 +248,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
       bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
       bot.say(to, colorize("Enter !senpai to ask DumbDumbBot if senpai has noticed you."));
-      bot.say(to, colorize("Enter !:O, !:(, or !XD to have DumbDumbBot express its emotions."));
+      bot.say(to, colorize("Enter !:O, !:(, !XD, !>_< to have DumbDumbBot express its emotions."));
     }
   });
 };
