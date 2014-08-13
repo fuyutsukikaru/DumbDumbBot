@@ -86,7 +86,7 @@ module.exports = function(bot) {
       var d = new Date();
       var date = d.getDate();
       var day = d.getDay();
-      var val = len * (date + first) * (day + last);
+      var val = (len + first + last) * (date + first) * (day + last);
       var hash = val % 13;
       var yakuman = [
         "Kokushi Musou",
@@ -145,7 +145,7 @@ module.exports = function(bot) {
       var d = new Date();
       var date = d.getDate();
       var day = d.getDay();
-      var val = len * (date + first) * (day + last);
+      var val = (len + first + last) * (date + first) * (day + last);
       var hash = val % 176;
       var saki = characters[hash];
       if (from == "Dolphy" || from == "CureRMN") {

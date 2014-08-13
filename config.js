@@ -1,5 +1,5 @@
 var config = {
-  channels: ["#bugmoney", "#hapchannel", "#qd"],
+  channels: ["#bugmoney", "#hapchannel", "#qd", "#chromatiqa"],
   server: "irc.rizon.net",
   nick: "DumbDumbBot",
   userName: "DumbDumbBot",
