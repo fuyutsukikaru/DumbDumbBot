@@ -125,6 +125,9 @@ module.exports = function(bot) {
       if (from == "DDK") {
         bot.say(to, colorize("I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*"));
       }
+      else if (from == "Piroko") {
+        bot.say(to, colorize("This is the FBI. Please take a seat."));
+      }
       else if (from == "LoliSenpai" || from == "Restinya") {
         bot.say(to, colorize("I'm a lolicon! XD"));
       } else {
