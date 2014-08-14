@@ -184,7 +184,6 @@ module.exports = function(bot) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
-    else if (text )
     else if (command == "!roulette") {
       var choices = rest.split(" ");
       var options = choices.length;
