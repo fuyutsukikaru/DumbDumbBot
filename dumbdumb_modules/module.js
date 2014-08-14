@@ -29,6 +29,9 @@ module.exports = function(bot) {
     var arr = text.split(" ", 2);
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
+
+    var thanksRegex = /thanks\W(\w*)$/i;
+
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
         bot.say(to, colorize("H-Hi " + from));
@@ -38,6 +41,13 @@ module.exports = function(bot) {
         else
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
+    }
+    else if (thanksRegex.exec(text)) {
+      matchWord = thanksRegex.exec(text)[1].toLowerCase();
+      truncatedRegex = /[aeiou].*/;
+      truncatedMatch = truncatedRegex.exec(matchWord);
+      thanked = "Th" + truncatedMatch
+      bot.say(channel, colorize(thanked));
     }
     else if (command == "!tsundere") {
       if (rest == "on") {
@@ -174,6 +184,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
+    else if (text )
     else if (command == "!roulette") {
       var choices = rest.split(" ");
       var options = choices.length;
