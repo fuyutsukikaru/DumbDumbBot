@@ -47,7 +47,7 @@ module.exports = function(bot) {
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
       thanked = "Th" + truncatedMatch
-      bot.say(channel, colorize(thanked));
+      bot.say(to, colorize(thanked));
     }
     else if (command == "!tsundere") {
       if (rest == "on") {
