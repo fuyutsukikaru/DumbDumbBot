@@ -31,6 +31,7 @@ module.exports = function(bot) {
     var rest = text.substr(text.indexOf(' ') + 1);
 
     var thanksRegex = /thanks\W(\w*)$/i;
+    var blessyouRegex = /bless you\W(\w*)$/i;
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
@@ -47,6 +48,13 @@ module.exports = function(bot) {
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
       thanked = "Th" + truncatedMatch
+      bot.say(to, colorize(thanked));
+    }
+    else if (blessyouRegex.exec(text)) {
+      matchWord = blessyouRegex.exec(text)[1].toLowerCase();
+      truncatedRegex = /[aeiou].*/;
+      truncatedMatch = truncatedRegex.exec(matchWord);
+      thanked = "Bl" + truncatedMatch
       bot.say(to, colorize(thanked));
     }
     else if (command == "!tsundere") {
