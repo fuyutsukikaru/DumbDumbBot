@@ -1,4 +1,4 @@
-var twitter = require('../twitter.js');
+var twitter = require('../twit.js');
 var sakis = require('../sakis.js');
 var faces = require('../face.js');
 var irc = require("irc");
@@ -151,7 +151,8 @@ module.exports = function(bot) {
     else if (command == "!remind") {
       var time = arr[1];
       if (time == parseInt(time)) {
-        var reminder = text.substr(text.indexOf(' ') + 2);
+        var len = time.length;
+        var reminder = text.substr(text.indexOf(' ') + len);
         bot.say(to, colorize("Reminder set for " + from));
         setTimeout(function() { bot.say(to, colorize(from + ": " + reminder)); }, 60000 * time);
       } else {
