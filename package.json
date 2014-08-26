@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "irc": ">=0.3.6",
-    "node-twitter-api": ">=1.2.3",
     "express": "3.x",
     "oauth": ">=0.1.3",
-    "twit": ">=1.1.18"
+    "twit": ">=1.1.18",
+    "request": "latest",
+    "cheerio": "latest"
   },
   "homepage": "http://moe-alternative.net/"
 }
