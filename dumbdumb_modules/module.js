@@ -4,6 +4,7 @@ var faces = require('../face.js');
 var irc = require("irc");
 var scrape = require('../scrape.js');
 var aikatsu = require('../aikatsu.js');
+var fs = require('fs');
 
 var tsundere = false;
 
@@ -11,9 +12,22 @@ function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
 
+function loadfeeds(bot, to) {
+  fs.readFile('rssfeeds.txt', function(err, data) {
+      if (err) throw err;
+      var array = data.toString().split("\n");
+      for(i in array) {
+        var feeds = require("../feeds");
+        console.log(array[i]);
+        feeds.repeat(bot, array[i], to);
+      }
+  });
+}
+
 module.exports = function(bot) {
-  bot.addListener("ping", function(server) {
-    // Wake up from idle
+
+  bot.addListener("registered", function(message) {
+    loadfeeds(bot, "#tanoshimi");
   });
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
@@ -48,7 +62,6 @@ module.exports = function(bot) {
     var year = d.getFullYear();
     var month = d.getMonth();
     var val = (len + first + last) * (date + first) * (day + last) * (year + day + first) * (month + date + last);
-    console.log(val);
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
@@ -59,6 +72,40 @@ module.exports = function(bot) {
         else
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
+    }
+    else if (to == "#tanoshimi" && command == "!addfeed" && (from == "Kasuteru" || from == "fuyutsukikaru")) {
+      fs.readFile('rssfeeds.txt', function(err, data) {
+        if (err) throw err;
+        if (data.toString().search(rest) == -1) {
+          fs.appendFile('rssfeeds.txt', rest + '\n', function(err) {
+            if (err)
+              bot.say(to, colorize("Could not add feed to list."));
+            else {
+              bot.say(to, colorize("Saved!"));
+              var feeds = require("../feeds");
+              console.log(rest);
+              feeds.repeat(bot, rest);
+            }
+          });
+        } else {
+          bot.say(to, colorize("The feed has already been added"));
+        }
+      });
+    }
+    else if (to == "#tanoshimi" && command == "!removefeed" && (from == "Kasuteru" || from == "fuyutsukikaru")) {
+      fs.readFile('rssfeeds.txt', function(err, data) {
+        if (err) throw err;
+        var text = data.toString();
+        var index = text.search(rest);
+        if (index != -1) {
+          text = text.replace(rest + '\n', "");
+          fs.writeFile('rssfeeds.txt', text, function(err, data) {
+            if (err) throw err;
+            bot.say(to, colorize("Feed was removed!"));
+          });
+        } else
+          bot.say(to, colorize("The feed isn't on the list."))
+      });
     }
     else if (twitterurl.test(text)) {
       console.log("Matched twitter url");
