@@ -54,8 +54,8 @@ module.exports = function(bot) {
 
     var thanksRegex = /thanks\W(\w*)$/i;
     var blessyouRegex = /bless you\W(\w*)$/i;
-    var twitterurl = /\bhttps:\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
-    var vndburl = /\bhttp:\/\/(www.)?vndb.org\/v[0-9]+\b/;
+    var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
+    var vndburl = /\b(http|https):\/\/(www.)?vndb.org\/v[0-9]+\b/;
     var lewd = /\bone sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
@@ -71,8 +71,7 @@ module.exports = function(bot) {
     var day = d.getDay();
     var year = d.getFullYear();
     var month = d.getMonth();
-    var val = (len + first + last) * (date + first) * (day + last) *
-     (year + day + first) * (month + date + last);
+    var val = (len + first + last) * (date + first) * (day + last) * (year + day + first) * (month + date + last);
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
@@ -85,8 +84,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
-    else if (command == "!addfeed" && (from == "Dolphy" ||
-      from == "Kasuteru" || from == "fuyutsukikaru")) {
+    else if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
@@ -103,8 +101,7 @@ module.exports = function(bot) {
         }
       });
     }
-    else if (command == "!removefeed" && (from == "Dolphy" ||
-      from == "Kasuteru" || from == "fuyutsukikaru")) {
+    else if (command == "!removefeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
