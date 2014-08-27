@@ -13,8 +13,6 @@ function salt() {
   return saltDate.getTime();
 }
 
-var time = salt().toString();
-
 function feedstart(bot, url, receiver) {
   var feedRef = firebaseRef.child("feeds/" + receiver);
   var urlstring = url.replace(/\./ig, ',');
@@ -31,6 +29,7 @@ function feedstart(bot, url, receiver) {
       }
     });
     (function repeat() {
+      var time = salt().toString();
       var feed = new gfeed.Feed(url + "?t=" + time);
       feed.listItems(function(items) {
         var data = items[0].title + " " + items[0].link;
