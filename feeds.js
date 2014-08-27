@@ -7,6 +7,14 @@ function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
 
+function salt() {
+  var now = new Date();
+  var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return saltDate.getTime();
+}
+
+var time = salt().toString();
+
 function feedstart(bot, url, receiver) {
   var feedRef = firebaseRef.child("feeds/" + receiver);
   var urlstring = url.replace(/\./ig, ',');
@@ -22,7 +30,7 @@ function feedstart(bot, url, receiver) {
         console.log("Feed removed.");
       }
     });
-    var feed = new gfeed.Feed(url);
+    var feed = new gfeed.Feed(url + "?t=" + time);
     (function repeat() {
       feed.listItems(function(items) {
         var data = items[0].title + " " + items[0].link;
