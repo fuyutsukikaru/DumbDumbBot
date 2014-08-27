@@ -22,14 +22,15 @@ function feedstart(bot, url, receiver) {
   if (url != "") {
     var last = "";
     feedRef.once('child_removed', function(oldChildSnapshot) {
-      console.log(oldChildSnapshot.child('url').val());
+      //console.log(oldChildSnapshot.child('url').val());
       if (oldChildSnapshot.child('url').val() == url) {
         removed = true;
         console.log("Feed removed.");
       }
     });
     (function repeat() {
-      var time = salt().toString();
+      //var time = salt().toString();
+      var time = 0;
       var feed = new gfeed.Feed(url + "?t=" + time);
       feed.listItems(function(items) {
         var data = items[0].title + " " + items[0].link;
