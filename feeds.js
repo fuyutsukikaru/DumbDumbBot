@@ -1,14 +1,27 @@
 var gfeed = require('google-feed-api');
 var irc = require('irc');
+var Firebase = require('firebase');
+var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
 
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
 
 function feedstart(bot, url, receiver) {
+  var feedRef = firebaseRef.child("feeds/" + receiver);
+  var urlstring = url.replace(/\./ig, ',');
+  var urlstring2 = urlstring.replace(/\//ig, '__');
   var initial = true;
+  var removed = false;
   if (url != "") {
     var last = "";
+    feedRef.once('child_removed', function(oldChildSnapshot) {
+      console.log(oldChildSnapshot.child('url').val());
+      if (oldChildSnapshot.child('url').val() == url) {
+        removed = true;
+        console.log("Feed removed.");
+      }
+    });
     var feed = new gfeed.Feed(url);
     (function repeat() {
       feed.listItems(function(items) {
@@ -16,14 +29,18 @@ function feedstart(bot, url, receiver) {
         if (data != last) {
           console.log(data);
           if (!initial) {
-            bot.say(receiver, colorize(data));
+            bot.say("#" + receiver, colorize(data));
           } else
             initial = false;
           last = data;
         } else {
-          console.log("Nothing new");
+          console.log("Nothing new on " + url);
+          //bot.say("#" + receiver, "Nothing new on " + url);
         }
-        setTimeout(repeat, 60000);
+        if (!removed)
+          setTimeout(repeat, 10000);
+        else
+          console.log("Feed was removed.");
       });
     })();
   }

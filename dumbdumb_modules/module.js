@@ -5,6 +5,9 @@ var irc = require("irc");
 var scrape = require('../scrape.js');
 var aikatsu = require('../aikatsu.js');
 var fs = require('fs');
+var feeds = require("../feeds");
+var Firebase = require('firebase');
+var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
 
 var tsundere = false;
 
@@ -12,22 +15,25 @@ function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
 
-function loadfeeds(bot, to) {
-  fs.readFile('rssfeeds.txt', function(err, data) {
-      if (err) throw err;
-      var array = data.toString().split("\n");
-      for(i in array) {
-        var feeds = require("../feeds");
-        console.log(array[i]);
-        feeds.repeat(bot, array[i], to);
-      }
+function loadfeeds(bot) {
+  var feedRef = firebaseRef.child("feeds");
+  feedRef.once('value', function(dataSnapshot) {
+    dataSnapshot.forEach(function(channelSnapshot) {
+      var channel = channelSnapshot.name();
+      console.log(channel);
+      channelSnapshot.forEach(function(feedSnapshot) {
+        var feedurl = feedSnapshot.child('url').val()
+        console.log(feedurl);
+        feeds.repeat(bot, feedurl, channel);
+      });
+    });
   });
 }
 
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    loadfeeds(bot, "#tanoshimi");
+    loadfeeds(bot);
   });
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
@@ -52,6 +58,10 @@ module.exports = function(bot) {
     var vndburl = /\bhttp:\/\/(www.)?vndb.org\/v[0-9]+\b/;
     var lewd = /\bone sec\b/i;
     var inuit = /\binuit\b/i;
+    var chan = /\b[\w]+\b/i;
+
+    var nohash = chan.exec(to);
+    var chanName = nohash[0];
 
     var len = from.length;
     var first = from.charCodeAt(0);
@@ -61,50 +71,50 @@ module.exports = function(bot) {
     var day = d.getDay();
     var year = d.getFullYear();
     var month = d.getMonth();
-    var val = (len + first + last) * (date + first) * (day + last) * (year + day + first) * (month + date + last);
+    var val = (len + first + last) * (date + first) * (day + last) *
+     (year + day + first) * (month + date + last);
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
         bot.say(to, colorize("H-Hi " + from));
       } else {
         if (tsundere)
-          bot.say(to, colorize("I-It's not like I wanted to see you or anything " + from));
+          bot.say(to, colorize("I-It's not like I wanted to see you or anything "
+          + from));
         else
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
-    else if (to == "#tanoshimi" && command == "!addfeed" && (from == "Kasuteru" || from == "fuyutsukikaru")) {
-      fs.readFile('rssfeeds.txt', function(err, data) {
-        if (err) throw err;
-        if (data.toString().search(rest) == -1) {
-          fs.appendFile('rssfeeds.txt', rest + '\n', function(err) {
-            if (err)
-              bot.say(to, colorize("Could not add feed to list."));
-            else {
-              bot.say(to, colorize("Saved!"));
-              var feeds = require("../feeds");
-              console.log(rest);
-              feeds.repeat(bot, rest);
-            }
-          });
+    else if (command == "!addfeed" && (from == "Dolphy" ||
+      from == "Kasuteru" || from == "fuyutsukikaru")) {
+      var feedRef = firebaseRef.child("feeds/" + chanName);
+      var urlstring = rest.replace(/\./ig, ',');
+      var urlstring2 = urlstring.replace(/\//ig, '__');
+      console.log(urlstring2);
+      feedRef.child(urlstring2).set({
+        url: rest
+      }, function(error) {
+        if (error) {
+          bot.say(to, colorize("Could not add feed."));
+          console.log(error);
         } else {
-          bot.say(to, colorize("The feed has already been added"));
+          bot.say(to, colorize("Feed added!"));
+          feeds.repeat(bot, rest, chanName);
         }
       });
     }
-    else if (to == "#tanoshimi" && command == "!removefeed" && (from == "Kasuteru" || from == "fuyutsukikaru")) {
-      fs.readFile('rssfeeds.txt', function(err, data) {
-        if (err) throw err;
-        var text = data.toString();
-        var index = text.search(rest);
-        if (index != -1) {
-          text = text.replace(rest + '\n', "");
-          fs.writeFile('rssfeeds.txt', text, function(err, data) {
-            if (err) throw err;
-            bot.say(to, colorize("Feed was removed!"));
-          });
-        } else
-          bot.say(to, colorize("The feed isn't on the list."))
+    else if (command == "!removefeed" && (from == "Dolphy" ||
+      from == "Kasuteru" || from == "fuyutsukikaru")) {
+      var feedRef = firebaseRef.child("feeds/" + chanName);
+      var urlstring = rest.replace(/\./ig, ',');
+      var urlstring2 = urlstring.replace(/\//ig, '__');
+      feedRef.child(urlstring2).remove(function(error) {
+        if (error) {
+          bot.say(to, colorize("Could not remove feed."));
+          console.log(error);
+        } else {
+          bot.say(to, colorize("Feed removed"));
+        }
       });
     }
     else if (twitterurl.test(text)) {
