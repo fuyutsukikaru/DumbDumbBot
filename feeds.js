@@ -30,8 +30,8 @@ function feedstart(bot, url, receiver) {
         console.log("Feed removed.");
       }
     });
-    var feed = new gfeed.Feed(url + "?t=" + time);
     (function repeat() {
+      var feed = new gfeed.Feed(url + "?t=" + time);
       feed.listItems(function(items) {
         var data = items[0].title + " " + items[0].link;
         if (data != last) {
