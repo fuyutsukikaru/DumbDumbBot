@@ -9,7 +9,7 @@ function colorize(text) {
 
 function salt() {
   var now = new Date();
-  var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCSeconds());
   return saltDate.getTime();
 }
 
