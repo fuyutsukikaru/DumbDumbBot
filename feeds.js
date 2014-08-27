@@ -34,7 +34,7 @@ function feedstart(bot, url, receiver) {
             initial = false;
           last = data;
         } else {
-          console.log(data);
+          //console.log(data);
           //console.log("Nothing new on " + url);
           //bot.say("#" + receiver, "Nothing new on " + url);
         }
