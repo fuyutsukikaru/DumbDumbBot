@@ -9,9 +9,10 @@ function salt() {
 var time = salt().toString();
 console.log(time);
 
-var feed = new gfeed.Feed("http://hikikomoridiaries.wordpress.com/feed/" + "?t=" + time);
+var feed = new gfeed.Feed("http://commiesubs.com/feed" + "?t=" + time);
+feed.setNumEntries(1);
   feed.listItems(function(items) {
-    var data = items[0].title + " " + items[0].link;
+    var data = items.title + " " + items.link;
     console.log(data);
     console.log(items);
   });
