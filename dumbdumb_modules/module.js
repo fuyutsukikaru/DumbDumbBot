@@ -73,7 +73,7 @@ module.exports = function(bot) {
     var year = d.getFullYear();
     var month = d.getMonth();
     var val = (len + first + last) * (date + first) * (day + last) * (year + day + first) * (month + date + last);
-    
+
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
         bot.say(to, colorize("H-Hi " + from));
