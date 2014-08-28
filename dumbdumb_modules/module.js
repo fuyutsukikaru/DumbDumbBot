@@ -48,6 +48,7 @@ module.exports = function(bot) {
   });
   // Listen for any message, say to him/her in the room
   bot.addListener("message", function(from, to, text, message) {
+    text = text.trim();
     var arr = text.split(" ", 2);
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
@@ -148,6 +149,22 @@ module.exports = function(bot) {
       thanked = "Bl" + truncatedMatch
       bot.say(to, colorize(thanked));
     }
+    else if (command == "!loa") {
+      if(text.indexOf(' ') > 0) {
+        bot.say(to, colorize(rest + ": ʘ‿ʘ"));
+      }
+      else {
+        bot.say(to, colorize("ʘ‿ʘ"));
+      }
+    }
+    else if (command == "!lod") {
+      if(text.indexOf(' ') > 0) {
+        bot.say(to, colorize(rest + ": ಠ_ಠ"));
+      }
+      else {
+        bot.say(to, colorize("ಠ_ಠ"));
+      }
+    }
     else if (command == "!tsundere") {
       if (rest == "on") {
         tsundere = true;
@@ -217,7 +234,7 @@ module.exports = function(bot) {
       if (from == "DDK") {
         bot.say(to, colorize("I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*"));
       }
-      else if (from == "Piroko") {
+      else if (from == "Piroko" || from == "kafushino") {
         bot.say(to, colorize("This is the FBI. Please take a seat."));
       }
       else if (from == "LoliSenpai" || from == "Restinya") {
