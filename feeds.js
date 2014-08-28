@@ -34,7 +34,7 @@ function feedstart(bot, url, receiver) {
       var feed = new gfeed.Feed(url + "?t=" + time);
       feed.setNumEntries(1);
       feed.listItems(function(items) {
-        var data = items.title + " " + items.link;
+        var data = items[0].title + " " + items[0].link;
         if (data != last) {
           console.log(data);
           if (!initial) {
