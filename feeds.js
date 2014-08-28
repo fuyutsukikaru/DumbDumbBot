@@ -34,21 +34,23 @@ function feedstart(bot, url, receiver) {
       var feed = new gfeed.Feed(url + "?t=" + time);
       feed.setNumEntries(1);
       feed.listItems(function(items) {
-        if (!items.error) {
+        if (!items.error && items !== undefined) {
           var data = items[0].title + " " + items[0].link;
           if (data != last) {
             console.log(data);
             if (!initial) {
               bot.say("#" + receiver, colorize(data));
-            } else
+            } else {
               initial = false;
+            }
             last = data;
           } else {
             //console.log(data);
             //console.log("Nothing new on " + url);
             //bot.say("#" + receiver, "Nothing new on " + url);
-          } else
-            console.log(items.error);
+          }
+        } else {
+          console.log(items.error);
         }
         if (!removed)
           setTimeout(repeat, 30000);
