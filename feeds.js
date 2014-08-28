@@ -29,8 +29,8 @@ function feedstart(bot, url, receiver) {
       }
     });
     (function repeat() {
-      //var time = salt().toString();
-      var time = 0;
+      var time = salt().toString();
+      //var time = 0;
       var feed = new gfeed.Feed(url + "?t=" + time);
       feed.listItems(function(items) {
         var data = items[0].title + " " + items[0].link;
