@@ -8,6 +8,13 @@ var twitter = new twit({
   access_token_secret: 'D6dlbNsFmanFlpw7oZmYanO9zuZky5nn4aFBiaCj4xC4u'
 });
 
+var twitter2 = new twit({
+  consumer_key: 'EfnyxsZDM4sRsPqz7NEe4Nl3l',
+  consumer_secret: 'ybIVkwktyOFMZTgRokRSmEHs2cw1sChbwFJvJWRIYJ0TZ7FEdQ',
+  access_token: '2777981995-z4dP9RhyHZ5ibDEhZ9zKJHN3DnWCel7ZU83iVAT',
+  access_token_secret: 'yZVQ5afcdu1LhoT6ATtmOTzNwGKchTCzDppDQZaOMLEUk'
+});
+
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
 };
@@ -15,28 +22,55 @@ function colorize(text) {
 function tweet(message, bot, receiver) {
   var len = message.length;
 
-  twitter.post("statuses/update", {
-    status: message
-  },
-  function(err, data, response) {
-    if (err) {
-      // something went wrong
-      console.log("Something happened here");
-      console.log(data);
-      console.log(err);
-      if (len > 140) {
-        bot.say(receiver, colorize("Tweet failed to send, over 140 characters."));
+  if (receiver == "#bugmoney" || receiver == "#hapchannel" || receiver == "#qd") {
+    twitter.post("statuses/update", {
+      status: message
+    },
+    function(err, data, response) {
+      if (err) {
+        // something went wrong
+        console.log("Something happened here");
+        console.log(data);
+        console.log(err);
+        if (len > 140) {
+          bot.say(receiver, colorize("Tweet failed to send, over 140 characters."));
+        }
+        else {
+          bot.say(receiver, colorize("Tweet failed to send, try again."));
+        }
+      } else {
+        // data contains the data sent by twitter
+        console.log("Sent successfully!");
+        bot.say(receiver, colorize("\"" + message + "\" was sent successfully!"));
       }
-      else {
-        bot.say(receiver, colorize("Tweet failed to send, try again."));
-      }
-    } else {
-      // data contains the data sent by twitter
-      console.log("Sent successfully!");
-      bot.say(receiver, colorize("\"" + message + "\" was sent successfully!"));
     }
+    );
+  } else if (receiver = "#tanoshimi") {
+    twitter2.post("statuses/update", {
+      status: message
+    },
+    function(err, data, response) {
+      if (err) {
+        // something went wrong
+        console.log("Something happened here");
+        console.log(data);
+        console.log(err);
+        if (len > 140) {
+          bot.say(receiver, colorize("Tweet failed to send, over 140 characters."));
+        }
+        else {
+          bot.say(receiver, colorize("Tweet failed to send, try again."));
+        }
+      } else {
+        // data contains the data sent by twitter
+        console.log("Sent successfully!");
+        bot.say(receiver, colorize("\"" + message + "\" was sent successfully!"));
+      }
+    }
+    );
+  } else {
+    bot.say(receiver, colorize("Your channel doesn't have a Twitter!"));
   }
-  );
 }
 
 function search(num, bot, receiver) {

@@ -9,7 +9,7 @@ function colorize(text) {
 
 function salt() {
   var now = new Date();
-  var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCSeconds());
+  var saltDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay());
   return saltDate.getTime();
 }
 
@@ -20,7 +20,6 @@ function feedstart(bot, url, receiver) {
   var initial = true;
   var removed = false;
   if (url != "") {
-    var last = "";
     feedRef.once('child_removed', function(oldChildSnapshot) {
       //console.log(oldChildSnapshot.child('url').val());
       if (oldChildSnapshot.child('url').val() == url) {
@@ -30,32 +29,36 @@ function feedstart(bot, url, receiver) {
     });
     (function repeat() {
       var time = salt().toString();
-      //var time = 0;
       var feed = new gfeed.Feed(url + "?t=" + time);
-      feed.setNumEntries(1);
-      feed.listItems(function(items) {
-        if (!items.error && typeof items !== undefined) {
-          var data = items[0].title + " " + items[0].link;
-          if (data != last) {
-            console.log(data);
-            if (!initial) {
-              bot.say("#" + receiver, colorize(data));
-            } else {
+      var last;
+      feedRef.once('value', function(dataSnapshot) {
+        last = dataSnapshot.child(urlstring2).child('last').val();
+        feed.setNumEntries(1);
+        feed.listItems(function(items) {
+          if (!items.error && (typeof items !== 'undefined')) {
+            var data = items[0].title + " " + items[0].link;
+            if (data != last) {
+              console.log(data);
+              if (!initial) {
+                bot.say("#" + receiver, colorize(data));
+              }
+              //last = data;
+              feedRef.child(urlstring2).child('last').set(data);
               initial = false;
+            } else {
+              //console.log(data);
+              //console.log("Nothing new on " + url);
+              //bot.say("#" + receiver, "Nothing new on " + url);
             }
-            last = data;
           } else {
-            //console.log(data);
-            //console.log("Nothing new on " + url);
-            //bot.say("#" + receiver, "Nothing new on " + url);
+            console.log(items.error);
+            console.log("Error on " + receiver + " " + url);
           }
-        } else {
-          console.log(items.error);
-        }
-        if (!removed)
-          setTimeout(repeat, 30000);
-        else
-          console.log("Feed was removed.");
+          if (!removed)
+            setTimeout(repeat, 30000);
+          else
+            console.log("Feed was removed.");
+        });
       });
     })();
   }

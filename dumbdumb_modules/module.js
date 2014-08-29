@@ -85,13 +85,14 @@ module.exports = function(bot) {
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
-    else if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
       console.log(urlstring2);
       feedRef.child(urlstring2).set({
-        url: rest
+        url: rest,
+        last: ""
       }, function(error) {
         if (error) {
           bot.say(to, colorize("Could not add feed."));
@@ -102,7 +103,7 @@ module.exports = function(bot) {
         }
       });
     }
-    else if (command == "!removefeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    if (command == "!removefeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
@@ -115,7 +116,7 @@ module.exports = function(bot) {
         }
       });
     }
-    else if (twitterurl.test(text)) {
+    if (twitterurl.test(text)) {
       console.log("Matched twitter url");
       var twitterid = /status\/[0-9]+\b/;
       var statusid = twitterid.exec(text);
@@ -124,32 +125,32 @@ module.exports = function(bot) {
       console.log(id[0]);
       twitter.search(id[0], bot, to);
     }
-    else if (lewd.test(text) && to != "#chromatiqa") {
+    if (lewd.test(text) && to != "#chromatiqa") {
       bot.say(to, colorize("one sex*"));
     }
-    else if (inuit.test(text)) {
+    if (inuit.test(text)) {
       bot.say(to, colorize("INUIT TOO"));
     }
-    else if (vndburl.test(text)) {
+    if (vndburl.test(text)) {
       var urls = vndburl.exec(text);
       console.log("Match vndb link!");
       scrape.scraper(urls[0], bot, to);
     }
-    else if (thanksRegex.exec(text)) {
+    if (thanksRegex.exec(text)) {
       matchWord = thanksRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
       thanked = "Th" + truncatedMatch
       bot.say(to, colorize(thanked));
     }
-    else if (blessyouRegex.exec(text)) {
+    if (blessyouRegex.exec(text)) {
       matchWord = blessyouRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
       thanked = "Bl" + truncatedMatch
       bot.say(to, colorize(thanked));
     }
-    else if (command == "!loa") {
+    if (command == "!loa") {
       if(text.indexOf(' ') > 0) {
         bot.say(to, colorize(rest + ": ʘ‿ʘ"));
       }
@@ -157,7 +158,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("ʘ‿ʘ"));
       }
     }
-    else if (command == "!lod") {
+    if (command == "!lod") {
       if(text.indexOf(' ') > 0) {
         bot.say(to, colorize(rest + ": ಠ_ಠ"));
       }
@@ -165,7 +166,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("ಠ_ಠ"));
       }
     }
-    else if (command == "!tsundere") {
+    if (command == "!tsundere") {
       if (rest == "on") {
         tsundere = true;
         bot.say(to, colorize("DumbDumbBot is now a tsundere!"));
@@ -175,16 +176,16 @@ module.exports = function(bot) {
         bot.say(to, colorize("DumbDumbBot got over its tsundere phase."));
       }
     }
-    else if (command == "!goaway") {
+    if (command == "!goaway") {
       if (tsundere)
         bot.say(to, colorize("I-It's not like I want you to go or anything " + rest));
       else
         bot.say(to, colorize("Go away " + rest));
     }
-    else if (command == "!bye") {
+    if (command == "!bye") {
       bot.say(to, colorize("BYE " + from.toUpperCase()));
     }
-    else if (command == "!countdown") {
+    if (command == "!countdown") {
       var number = rest;
       if (number <= 15) {
         if (tsundere)
@@ -197,15 +198,16 @@ module.exports = function(bot) {
             number--;
             setTimeout(counter, 1000);
           }
-          else
+          else {
             bot.say(to, colorize("GO!"));
+          }
         })();
       } else if (rest == "next tourney")
         bot.say(to, colorize("Never."));
       else
         bot.say(to, colorize("I'm too dumb to count from that high."));
     }
-    else if (command == "!yakuman") {
+    if (command == "!yakuman") {
       var hash = val % 13;
       var yakuman = [
         "Kokushi Musou",
@@ -227,10 +229,10 @@ module.exports = function(bot) {
       } else
         bot.say(to, colorize("Today you should try going for " + yakuman[hash]));
     }
-    else if (command == "!tweet") {
+    if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
     }
-    else if (command == "!petite") {
+    if (command == "!petite") {
       if (from == "DDK") {
         bot.say(to, colorize("I'm  DEFINITELY not a lolicon, I just like petite girls! *wink wink*"));
       }
@@ -246,10 +248,10 @@ module.exports = function(bot) {
           bot.say(to, colorize("I'm not a lolicon, I just like petite girls!"));
       }
     }
-    else if (command == "!lolicon") {
+    if (command == "!lolicon") {
       bot.say(to, colorize("No just lol-"));
     }
-    else if (command == "!remind") {
+    if (command == "!remind") {
       var time = arr[1];
       var len = time.length;
       if (time == parseInt(time)) {
@@ -260,7 +262,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("Need to set a valid number of minutes!"));
       }
     }
-    else if (command == "!saki") {
+    if (command == "!saki") {
       var characters = sakis.characters;
       var hash = val % 176;
       var saki = characters[hash];
@@ -290,7 +292,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
-    else if (command == "!aikatsu") {
+    if (command == "!aikatsu") {
       var fashion = aikatsu.fashion;
       var hash = val % 13;
       var brand = fashion[hash];
@@ -298,13 +300,13 @@ module.exports = function(bot) {
       var words = brand.split(" ", 2);
       bot.say(to, colorize("http://aikatsu.wikia.com/wiki/" + words[0] + "_" + words[1]));
     }
-    else if (command == "!roulette") {
+    if (command == "!roulette") {
       var choices = rest.split(" ");
       var options = choices.length;
       var random = Math.floor((Math.random() * options));
       bot.say(to, colorize("I choose " + choices[random]));
     }
-    else if (command == "!senpai") {
+    if (command == "!senpai") {
       var random = Math.floor((Math.random() * 10));
       if (random == 0) {
         if (tsundere)
@@ -319,7 +321,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("Senpai will never notice you..."));
       }
     }
-    else if (command == "!:O") {
+    if (command == "!:O") {
       var surprise = faces.surprise;
       var rows = surprise.length;
       var n;
@@ -327,7 +329,7 @@ module.exports = function(bot) {
         bot.say(to, colorize(surprise[n]));
       }
     }
-    else if (command == "!:(") {
+    if (command == "!:(") {
       var sad = faces.sad;
       var rows = sad.length;
       var n;
@@ -335,7 +337,7 @@ module.exports = function(bot) {
         bot.say(to, colorize(sad[n]));
       }
     }
-    else if (command == "!XD") {
+    if (command == "!XD") {
       var XD = faces.XD;
       var rows = XD.length;
       var n;
@@ -343,7 +345,7 @@ module.exports = function(bot) {
         bot.say(to, colorize(XD[n]));
       }
     }
-    else if (command == "!>_<") {
+    if (command == "!>_<") {
       var cutie = faces.cutie;
       var rows = cutie.length;
       var n;
@@ -351,7 +353,7 @@ module.exports = function(bot) {
         bot.say(to, colorize(cutie[n]));
       }
     }
-    else if (command == "!:)") {
+    if (command == "!:)") {
       if (from == "DDK")
         bot.say(to, colorize(";)"));
       else {
@@ -361,7 +363,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("I want to protect that smile for the one I truly love."));
       }
     }
-    else if (command == "!help") {
+    if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !bye to have DumbDumbBot see you off!"));
       bot.say(to, colorize("Enter !goaway <name of person> to have DumbDumbBot be rude to a person."));

@@ -10,7 +10,7 @@ var fashion = [
   "Love Moonrise",
   "Magical Toy",
   "Bohemian Sky",
-  "Auora Fantasy",
+  "Aurora Fantasy",
   "Love Queen"
 ];
 
