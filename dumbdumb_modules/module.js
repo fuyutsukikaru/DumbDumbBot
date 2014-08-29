@@ -57,6 +57,7 @@ module.exports = function(bot) {
     var blessyouRegex = /bless you\W(\w*)$/i;
     var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
     var vndburl = /\b(http|https):\/\/(www.)?vndb.org\/v[0-9]+\b/;
+    var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch\?v=[\w|\W]+\b/;
     var lewd = /\bone sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
@@ -124,6 +125,11 @@ module.exports = function(bot) {
       var id = /[0-9]+\b/.exec(statusid[0]);
       console.log(id[0]);
       twitter.search(id[0], bot, to);
+    }
+    if (youtubeurl.test(text)) {
+      var urls = youtubeurl.exec(text);
+      console.log("Match youtube link!");
+      scrape.scraper(urls[0], bot, to);
     }
     if (lewd.test(text) && to != "#chromatiqa") {
       bot.say(to, colorize("one sex*"));

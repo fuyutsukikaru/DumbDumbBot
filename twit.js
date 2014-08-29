@@ -45,7 +45,7 @@ function tweet(message, bot, receiver) {
       }
     }
     );
-  } else if (receiver = "#tanoshimi") {
+  } else if (receiver == "#tanoshimi") {
     twitter2.post("statuses/update", {
       status: message
     },
