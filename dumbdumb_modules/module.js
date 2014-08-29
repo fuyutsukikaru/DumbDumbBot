@@ -7,6 +7,8 @@ var aikatsu = require('../aikatsu.js');
 var fs = require('fs');
 var feeds = require("../feeds");
 var Firebase = require('firebase');
+var youtube = require('youtube-node');
+var youtubeid = require('get-youtube-id');
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
 
 var tsundere = false;
@@ -34,6 +36,7 @@ module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
     loadfeeds(bot);
+    youtube.setKey('AIzaSyAbeGLTpkpLCGYHO2YVCLL20rgCKzW_sYQ');
   });
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
@@ -126,10 +129,20 @@ module.exports = function(bot) {
       console.log(id[0]);
       twitter.search(id[0], bot, to);
     }
-    if (youtubeurl.test(text)) {
+    if (youtubeurl.test(text) && command != "!hide") {
       var urls = youtubeurl.exec(text);
       console.log("Match youtube link!");
-      scrape.scraper(urls[0], bot, to);
+      var id = youtubeid(urls[0]);
+      console.log(id);
+      youtube.getById(id, function(resultData) {
+        if (!resultData.error) {
+          console.log(resultData);
+          bot.say(to, colorize(resultData.snippet.title));
+        } else {
+          console.log(resultData.error);
+          bot.say(to, colorize("Could not get title."));
+        }
+      });
     }
     if (lewd.test(text) && to != "#chromatiqa") {
       bot.say(to, colorize("one sex*"));

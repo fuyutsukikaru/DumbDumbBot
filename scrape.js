@@ -14,6 +14,7 @@ function scraper(url, bot, receiver) {
   var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch?v=*\b/;
   request(url, function(error, response, html) {
     if (!error) {
+      console.log("Scraping did not error");
       var $ = cheerio.load(html);
       var data;
       if (vndburl.test(url)) {
@@ -21,13 +22,6 @@ function scraper(url, bot, receiver) {
         console.log(data);
         if (data == "")
           bot.say(receiver, colorize("Could not find a VN at url."));
-        else
-          bot.say(receiver, colorize(data));
-      } else if (youtubeurl.test(url)) {
-        data = $('.watch_title').text();
-        console.log(data);
-        if (data == "" || (typeof data === 'undefined'))
-          bot.say(receiver, colorize("Could not find a title at url."));
         else
           bot.say(receiver, colorize(data));
       }

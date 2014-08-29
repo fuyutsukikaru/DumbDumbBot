@@ -74,9 +74,17 @@ function tweet(message, bot, receiver) {
 }
 
 function search(num, bot, receiver) {
-  twitter.get('statuses/show/:id', { id: num }, function(err, data, response) {
+  twitter.get('statuses/show/:id', { id: num, include_entities: true }, function(err, data, response) {
       if (!err) {
-        var result = data.user.screen_name + "-sama tweeted: " + data.text;
+        var tweet = data.text;
+        //var len = data.entities.urls.length;
+        //console.log(len);
+        /*for (var i = 0; i < len; i++) {
+          console.log(data.entities.urls[0].url);
+          console.log(data.entities.urls[0].expanded_url);
+          tweet.replace(data.entities.urls[0].url, data.entities.urls[0].expanded_url);
+        }*/
+        var result = data.user.screen_name + "-sama tweeted: " + tweet;
         bot.say(receiver, colorize(result));
       } else {
         bot.say(receiver, colorize("Could not retrieve tweet."));
