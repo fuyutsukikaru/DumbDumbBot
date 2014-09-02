@@ -137,7 +137,7 @@ module.exports = function(bot) {
       youtube.getById(id, function(resultData) {
         if (!resultData.error) {
           console.log(resultData);
-          bot.say(to, colorize(resultData.snippet.title));
+          bot.say(to, colorize(resultData.items[0].snippet.title));
         } else {
           console.log(resultData.error);
           bot.say(to, colorize("Could not get title."));
