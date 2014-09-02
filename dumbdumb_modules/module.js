@@ -35,8 +35,7 @@ function loadfeeds(bot) {
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    loadfeeds(bot);
-    youtube.setKey('AIzaSyAbeGLTpkpLCGYHO2YVCLL20rgCKzW_sYQ');
+    //loadfeeds(bot);
   });
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
@@ -89,7 +88,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("HI " + from.toUpperCase()));
       }
     }
-    if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    /*if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
@@ -119,7 +118,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("Feed removed"));
         }
       });
-    }
+    }*/
     if (twitterurl.test(text)) {
       console.log("Matched twitter url");
       var twitterid = /status\/[0-9]+\b/;
@@ -131,6 +130,7 @@ module.exports = function(bot) {
     }
     if (youtubeurl.test(text) && command != "!hide") {
       var urls = youtubeurl.exec(text);
+      youtube.setKey('AIzaSyAbeGLTpkpLCGYHO2YVCLL20rgCKzW_sYQ');
       console.log("Match youtube link!");
       var id = youtubeid(urls[0]);
       console.log(id);
