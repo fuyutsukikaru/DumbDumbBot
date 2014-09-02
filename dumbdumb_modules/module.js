@@ -130,7 +130,7 @@ module.exports = function(bot) {
     }
     if (youtubeurl.test(text) && command != "!hide") {
       var urls = youtubeurl.exec(text);
-      youtube.setKey('AIzaSyCCR3BpyfjRun-ni-u41CmW6yq074P1AaU');
+      youtube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
       console.log("Match youtube link!");
       var id = youtubeid(urls[0]);
       console.log(id);
