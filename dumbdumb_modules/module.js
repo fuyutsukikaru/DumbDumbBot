@@ -60,7 +60,7 @@ module.exports = function(bot) {
     var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
     var vndburl = /\b(http|https):\/\/(www.)?vndb.org\/v[0-9]+\b/;
     var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch\?v=[\w|\W]+\b/;
-    var lewd = /\bone sec\b/i;
+    var lewd = /\b(one|1) sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
 
