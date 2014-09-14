@@ -199,7 +199,7 @@ module.exports = function(bot) {
       if (tsundere)
         bot.say(to, colorize("I-It's not like I want you to go or anything " + rest));
       else
-        bot.say(to, colorize("Rawr, go away " + rest ", I hate you!"));
+        bot.say(to, colorize("Rawr, go away " + rest ", I hate you!!!"));
     }
     if (command == "!bye") {
       bot.say(to, colorize("BYE " + from.toUpperCase()));
