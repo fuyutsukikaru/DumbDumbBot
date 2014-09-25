@@ -185,6 +185,9 @@ module.exports = function(bot) {
         bot.say(to, colorize("ಠ_ಠ"));
       }
     }
+    if (command == "!rawr") {
+      bot.say(to, colorize("Gao gao! http://waa.ai/4yrR"));
+    }
     if (command == "!tsundere") {
       if (rest == "on") {
         tsundere = true;
