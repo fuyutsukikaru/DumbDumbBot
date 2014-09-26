@@ -150,7 +150,7 @@ module.exports = function(bot) {
     if (inuit.test(text)) {
       bot.say(to, colorize("INUIT TOO"));
     }
-    if (vndburl.test(text)) {
+    if (command != "!hide" && vndburl.test(text)) {
       var urls = vndburl.exec(text);
       console.log("Match vndb link!");
       scrape.scraper(urls[0], bot, to);
@@ -186,7 +186,7 @@ module.exports = function(bot) {
       }
     }
     if (command == "!rawr") {
-      bot.say(to, colorize("Gao gao! http://waa.ai/4yrR"));
+      bot.say(to, colorize("Gao gao! I'm verrrryyyy scary. Fear me! Gao!"));
     }
     if (command == "!tsundere") {
       if (rest == "on") {
@@ -392,6 +392,7 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15."));
       bot.say(to, colorize("Enter !remind <minutes> <message> to have DumbDumbBot remind you of things."));
       bot.say(to, colorize("Enter !tweet <message to send> to post a tweet."));
+      bot.say(to, colorize("Use the !hide command to prevent DumbDumbBot from posting the titles of YouTube videos and VNs."));
       bot.say(to, colorize("Enter !yakuman to have DumbDumbBot tell you what yakuman you should go for today."));
       bot.say(to, colorize("Enter !saki to get your spiritual Saki of the day."));
       bot.say(to, colorize("Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you."));
