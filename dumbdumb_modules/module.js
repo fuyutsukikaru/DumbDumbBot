@@ -385,6 +385,14 @@ module.exports = function(bot) {
           bot.say(to, colorize("I want to protect that smile for the one I truly love."));
       }
     }
+    if (command == "!:9") {
+      var nine = faces.nine;
+      var rows = nine.length;
+      var n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(nine[n]));
+      }
+    }
     if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
       bot.say(to, colorize("Enter !bye to have DumbDumbBot see you off!"));
