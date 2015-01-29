@@ -64,7 +64,7 @@ module.exports = function(bot) {
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
 
-    if (tsundere_list[from] == true) {
+    if (tsundere_list[to] == true) {
       tsundere = true;
     } else {
       tsundere = false;
