@@ -220,11 +220,11 @@ module.exports = function(bot) {
     // Enables or disables the tsundere mode
     if (command == "!tsundere") {
       if (rest == "on") {
-        tsundere_list[from] = true;
+        tsundere_list[to] = true;
         bot.say(to, colorize("DumbDumbBot is now a tsundere!"));
       }
       else if (rest == "off") {
-        tsundere_list[from] = false;
+        tsundere_list[to] = false;
         bot.say(to, colorize("DumbDumbBot got over its tsundere phase."));
       }
     }
