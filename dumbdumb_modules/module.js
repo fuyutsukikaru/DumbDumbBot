@@ -396,7 +396,7 @@ module.exports = function(bot) {
     if (command == "!mibucchi" | command == "!meball") {
       var mibucchi = faces.mibucchi;
       var rows = mibucchi.length;
-      varn n;
+      var n;
       for (n = 0; n < rows; n++) {
         bot.say(to, colorize(mibucchi[n]));
       }
