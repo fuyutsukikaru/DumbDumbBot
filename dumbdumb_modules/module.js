@@ -18,7 +18,8 @@ var tsundere_list = {
   "#hapchannel": false,
   "#qd": false,
   "chromatiqa": false,
-  "#tanoshimi": false
+  "#tanoshimi": false,
+  "#critics-conn": false
 }
 
 function colorize(text) {
