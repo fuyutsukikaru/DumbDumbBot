@@ -286,7 +286,7 @@ module.exports = function(bot) {
     }
     if (command == "!saki") {
       var characters = sakis.characters;
-      var hash = val % 176;
+      var hash = val % characters.length;
       var saki = characters[hash];
       if (from == "Dolphy" || from == "CureRMN") {
         hash = val % 2;
@@ -316,7 +316,7 @@ module.exports = function(bot) {
     }
     if (command == "!aikatsu") {
       var fashion = aikatsu.fashion;
-      var hash = val % 13;
+      var hash = val % fashion.length;
       var brand = fashion[hash];
       bot.say(to, colorize("Today your Aikatsu brand is " + brand));
       var words = brand.split(" ", 2);
@@ -391,6 +391,14 @@ module.exports = function(bot) {
       var n;
       for (n = 0; n < rows; n++) {
         bot.say(to, colorize(nine[n]));
+      }
+    }
+    if (command == "!mibucchi" | command == "!meball") {
+      var mibucchi = faces.mibucchi;
+      var rows = mibucchi.length;
+      varn n;
+      for (n = 0; n < rows; n++) {
+        bot.say(to, colorize(mibucchi[n]));
       }
     }
     if (command == "!help") {

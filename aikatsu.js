@@ -11,7 +11,8 @@ var fashion = [
   "Magical Toy",
   "Bohemian Sky",
   "Aurora Fantasy",
-  "Love Queen"
+  "Love Queen",
+  "Sangria Rosa"
 ];
 
 exports.fashion = fashion;
