@@ -10,9 +10,6 @@ app.use(express.session());
 app.use(express.static(__dirname));
 
 var bot = new irc.Client(config.server, config.nick, config);
-/*fs.readdirSync("./dumbdumb_modules").forEach(function(file) {
-	require("./dumbdumb_modules/" + file)(bot);
-});*/
 require("./dumbdumb_modules/module.js")(bot);
 
 var port = Number(process.env.PORT || 5000);
