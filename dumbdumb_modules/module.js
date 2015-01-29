@@ -1,17 +1,25 @@
-var twitter = require('../twit.js');
-var sakis = require('../sakis.js');
-var faces = require('../face.js');
+var twitter = require('./twitter/twit.js');
+var sakis = require('./shindans/sakis.js');
+var faces = require('./face.js');
 var irc = require("irc");
-var scrape = require('../scrape.js');
-var aikatsu = require('../aikatsu.js');
+var scrape = require('./scrape.js');
+var aikatsu = require('./shindans/aikatsu.js');
 var fs = require('fs');
-var feeds = require("../feeds");
+var feeds = require("./feeds");
 var Firebase = require('firebase');
 var youtube = require('youtube-node');
 var youtubeid = require('get-youtube-id');
+
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
 
 var tsundere = false;
+var tsundere_list = {
+  "#bugmoney": false,
+  "#hapchannel": false,
+  "#qd": false,
+  "chromatiqa": false,
+  "#tanoshimi": false
+}
 
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
@@ -37,6 +45,7 @@ module.exports = function(bot) {
   bot.addListener("registered", function(message) {
     //loadfeeds(bot);
   });
+  // Listeners for when people join the lobby
   bot.addListener("join", function(channel, nick, message) {
     if (nick == "Meball") {
       bot.say(channel, colorize("HI " + nick.toUpperCase()));
@@ -55,6 +64,13 @@ module.exports = function(bot) {
     var command = arr[0];
     var rest = text.substr(text.indexOf(' ') + 1);
 
+    if (tsundere_list[from] == true) {
+      tsundere = true;
+    } else {
+      tsundere = false;
+    }
+
+    // Regex for detecting certain text patterns
     var thanksRegex = /thanks\W(\w*)$/i;
     var blessyouRegex = /bless you\W(\w*)$/i;
     var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
@@ -67,6 +83,7 @@ module.exports = function(bot) {
     var nohash = chan.exec(to);
     var chanName = nohash[0];
 
+    // Use the person's ID and the date to calculate a value
     var len = from.length;
     var first = from.charCodeAt(0);
     var last = from.charCodeAt(len-1);
@@ -75,17 +92,18 @@ module.exports = function(bot) {
     var day = d.getDay();
     var year = d.getFullYear();
     var month = d.getMonth();
-    var val = (len + first + last) * (date + first) * (day + last) * (year + day + first) * (month + date + last);
+    var val = (len + first + last) * (date + first + year) * (day + last + month) * (day + first + len) * (month + date + last);
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
         bot.say(to, colorize("H-Hi " + from));
       } else {
-        if (tsundere)
+        if (tsundere) {
           bot.say(to, colorize("I-It's not like I wanted to see you or anything "
           + from));
-        else
+        } else {
           bot.say(to, colorize("HI " + from.toUpperCase()));
+        }
       }
     }
     /*if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
@@ -119,7 +137,9 @@ module.exports = function(bot) {
         }
       });
     }*/
-    if (twitterurl.test(text)) {
+    // Commands for detecting urls
+    if (command != "!hide" && twitterurl.test(text)) {
+      // Matches a Twitter url with a tweet
       console.log("Matched twitter url");
       var twitterid = /status\/[0-9]+\b/;
       var statusid = twitterid.exec(text);
@@ -129,6 +149,7 @@ module.exports = function(bot) {
       twitter.search(id[0], bot, to);
     }
     if (youtubeurl.test(text) && command != "!hide") {
+      // Matches a YouTube url
       var urls = youtubeurl.exec(text);
       youtube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
       console.log("Match youtube link!");
@@ -144,17 +165,20 @@ module.exports = function(bot) {
         }
       });
     }
+    if (command != "!hide" && vndburl.test(text)) {
+      // Detects a vndb url
+      var urls = vndburl.exec(text);
+      console.log("Match vndb link!");
+      scrape.scraper(urls[0], bot, to);
+    }
+    // Features requested by dolphy
     if (lewd.test(text) && to != "#chromatiqa") {
       bot.say(to, colorize("one sex*"));
     }
     if (inuit.test(text)) {
       bot.say(to, colorize("INUIT TOO"));
     }
-    if (command != "!hide" && vndburl.test(text)) {
-      var urls = vndburl.exec(text);
-      console.log("Match vndb link!");
-      scrape.scraper(urls[0], bot, to);
-    }
+    // Thanks and Bless You detected with regex
     if (thanksRegex.exec(text)) {
       matchWord = thanksRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
@@ -169,6 +193,7 @@ module.exports = function(bot) {
       thanked = "Bl" + truncatedMatch
       bot.say(to, colorize(thanked));
     }
+    // Looks of approval and disapproval
     if (command == "!loa") {
       if(text.indexOf(' ') > 0) {
         bot.say(to, colorize(rest + ": ʘ‿ʘ"));
@@ -186,34 +211,46 @@ module.exports = function(bot) {
       }
     }
     if (command == "!rawr") {
-      bot.say(to, colorize("Gao gao! I'm verrrryyyy scary. Fear me! Gao!"));
+      if (tsundere) {
+        bot.say(to, colorize("Haaaaa? Are you stupid or something?"));
+      } else {
+        bot.say(to, colorize("Gao gao! I'm verrrryyyy scary. Fear me! Gao!"));
+      }
     }
+    // Enables or disables the tsundere mode
     if (command == "!tsundere") {
       if (rest == "on") {
-        tsundere = true;
+        tsundere_list[from] = true;
         bot.say(to, colorize("DumbDumbBot is now a tsundere!"));
       }
       else if (rest == "off") {
-        tsundere = false;
+        tsundere_list[from] = false;
         bot.say(to, colorize("DumbDumbBot got over its tsundere phase."));
       }
     }
     if (command == "!goaway") {
-      if (tsundere)
+      if (tsundere) {
         bot.say(to, colorize("I-It's not like I want you to go or anything " + rest));
-      else
+      } else {
         bot.say(to, colorize("Rawr, go away " + rest + ", I hate you!!!"));
+      }
     }
     if (command == "!bye") {
-      bot.say(to, colorize("BYE " + from.toUpperCase()));
+      if (!tsundere) {
+        bot.say(to, colorize("BYE " + from.toUpperCase()));
+      } else {
+        bot.say(to, colorize("G-Goodbye...baka."));
+      }
     }
+    // A countdown timer that goes up to 15 seconds
     if (command == "!countdown") {
       var number = rest;
       if (number <= 15) {
-        if (tsundere)
+        if (tsundere) {
           bot.say(to, colorize("W-Why do I have to do that for you? F-Fine, starting!"));
-        else
+        } else {
           bot.say(to, colorize("Starting!"));
+        }
         (function counter() {
           if (number > 0) {
             bot.say(to, colorize(number));
@@ -224,11 +261,13 @@ module.exports = function(bot) {
             bot.say(to, colorize("GO!"));
           }
         })();
-      } else if (rest == "next tourney")
+      } else if (rest == "next tourney") {
         bot.say(to, colorize("Never."));
-      else
+      } else {
         bot.say(to, colorize("I'm too dumb to count from that high."));
+      }
     }
+    // Yakuman of the day Shindan
     if (command == "!yakuman") {
       var hash = val % 13;
       var yakuman = [
@@ -251,6 +290,7 @@ module.exports = function(bot) {
       } else
         bot.say(to, colorize("Today you should try going for " + yakuman[hash]));
     }
+    // Tweet to the appropriate account
     if (command == "!tweet") {
       twitter.tweet(rest, bot, to);
     }
@@ -273,6 +313,7 @@ module.exports = function(bot) {
     if (command == "!lolicon") {
       bot.say(to, colorize("No just lol-"));
     }
+    // A reminder function taht reminds you after a certain number of minutes
     if (command == "!remind") {
       var time = arr[1];
       var len = time.length;
@@ -284,6 +325,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("Need to set a valid number of minutes!"));
       }
     }
+    // Saki shindan
     if (command == "!saki") {
       var characters = sakis.characters;
       var hash = val % characters.length;
@@ -314,6 +356,7 @@ module.exports = function(bot) {
         bot.say(to, colorize("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]));
       }
     }
+    // Aikatsu shindan
     if (command == "!aikatsu") {
       var fashion = aikatsu.fashion;
       var hash = val % fashion.length;
@@ -322,11 +365,16 @@ module.exports = function(bot) {
       var words = brand.split(" ", 2);
       bot.say(to, colorize("http://aikatsu.wikia.com/wiki/" + words[0] + "_" + words[1]));
     }
+    // A roulette that chooses between different input options
     if (command == "!roulette") {
-      var choices = rest.split(" ");
+      var choices = rest.split(/[ ]+/);
       var options = choices.length;
       var random = Math.floor((Math.random() * options));
-      bot.say(to, colorize("I choose " + choices[random]));
+      if (tsundere) {
+        bot.say(to, colorize("Something like " + choices[random] + " is good enough for trash like you."));
+      } else {
+        bot.say(to, colorize("I choose " + choices[random]));
+      }
     }
     if (command == "!senpai") {
       var random = Math.floor((Math.random() * 10));
@@ -343,6 +391,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("Senpai will never notice you..."));
       }
     }
+    // A variety of reaction faces
     if (command == "!:O") {
       var surprise = faces.surprise;
       var rows = surprise.length;
