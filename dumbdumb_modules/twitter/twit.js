@@ -77,14 +77,16 @@ function search(num, bot, receiver) {
   twitter.get('statuses/show/:id', { id: num, include_entities: true }, function(err, data, response) {
       if (!err) {
         var tweet = data.text;
-        var n_tweet;
-        var len = data.entities.urls.length;
-        //console.log(len);
-        for (var i = 0; i < len; i++) {
-          //console.log(data.entities.urls[0].url);
-          //console.log(data.entities.urls[0].expanded_url);
-          n_tweet = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
-          tweet = n_tweet;
+        var tweetUrls;
+        var tweetMedia;
+        var urllen = data.entities.urls.length;
+        for (var i = 0; i < urllen; i++) {
+          tweetUrls = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
+          tweet = tweetUrls;
+        }
+        if (data.entities.media.size != 0) {
+          tweetMedia = tweet.replace(data.entities.media.url, data.entities.media.display_url);
+          tweet = tweetMedia;
         }
         var result = data.user.screen_name + "-sama tweeted: " + tweet;
         bot.say(receiver, colorize(result));
