@@ -21,6 +21,7 @@ function colorize(text) {
 
 function tweet(message, bot, receiver) {
   var len = message.length;
+  var message = escape(message);
 
   if (receiver == "#bugmoney" || receiver == "#hapchannel" || receiver == "#qd") {
     twitter.post("statuses/update", {
@@ -84,11 +85,10 @@ function search(num, bot, receiver) {
           tweetUrls = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
           tweet = tweetUrls;
         }
-        console.log(data.entities.media.length);
-        if (data.entities.media.length != 0) {
-          console.log(data.entities.media.url);
-          console.log(data.entities.media.display_url);
-          tweetMedia = tweet.replace(data.entities.media.url, data.entities.media.display_url);
+        if (typeof data.entities.media[0] !== 'undefined') {
+          console.log(data.entities.media[0].url);
+          console.log(data.entities.media[0].display_url);
+          tweetMedia = tweet.replace(data.entities.media[0].url, data.entities.media[0].display_url);
           tweet = tweetMedia;
         }
         var result = data.user.screen_name + "-sama tweeted: " + tweet;
