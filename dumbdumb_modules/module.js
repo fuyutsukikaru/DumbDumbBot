@@ -246,7 +246,9 @@ module.exports = function(bot) {
     // A countdown timer that goes up to 15 seconds
     if (command == "!countdown") {
       var number = rest;
-      if (number <= 15) {
+      if (typeof number === 'undefined' || (isNaN(number) && number != "next tourney")) {
+        bot.say(to, colorize("You need to enter a number, baka!"));
+      } else if (number <= 15) {
         if (tsundere) {
           bot.say(to, colorize("W-Why do I have to do that for you? F-Fine, starting!"));
         } else {

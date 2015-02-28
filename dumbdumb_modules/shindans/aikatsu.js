@@ -13,7 +13,8 @@ var fashion = [
   "Aurora Fantasy",
   "Love Queen",
   "Sangria Rosa",
-  "Sakurairo Kaden"
+  "Sakurairo Kaden",
+  "Dance Fusion"
 ];
 
 exports.fashion = fashion;
