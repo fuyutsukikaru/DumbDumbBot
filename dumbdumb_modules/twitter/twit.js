@@ -21,7 +21,6 @@ function colorize(text) {
 
 function tweet(message, bot, receiver) {
   var len = message.length;
-  var message = escape(message);
 
   if (receiver == "#bugmoney" || receiver == "#hapchannel" || receiver == "#qd") {
     twitter.post("statuses/update", {
