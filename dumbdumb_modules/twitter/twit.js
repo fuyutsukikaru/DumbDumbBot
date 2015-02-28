@@ -84,7 +84,10 @@ function search(num, bot, receiver) {
           tweetUrls = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
           tweet = tweetUrls;
         }
-        if (data.entities.media.size != 0) {
+        console.log(data.entities.media.length);
+        if (data.entities.media.length != 0) {
+          console.log(data.entities.media.url);
+          console.log(data.entities.media.display_url);
           tweetMedia = tweet.replace(data.entities.media.url, data.entities.media.display_url);
           tweet = tweetMedia;
         }
