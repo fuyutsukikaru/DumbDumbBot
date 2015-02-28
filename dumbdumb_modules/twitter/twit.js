@@ -83,7 +83,7 @@ function search(num, bot, receiver) {
         for (var i = 0; i < len; i++) {
           //console.log(data.entities.urls[0].url);
           //console.log(data.entities.urls[0].expanded_url);
-          n_tweet = tweet.replace(data.entities.urls[i].url, data.entities.urls[0].display_url);
+          n_tweet = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
           tweet = n_tweet;
         }
         var result = data.user.screen_name + "-sama tweeted: " + tweet;
