@@ -30,7 +30,7 @@ function loadfeeds(bot) {
   var feedRef = firebaseRef.child("feeds");
   feedRef.once('value', function(dataSnapshot) {
     dataSnapshot.forEach(function(channelSnapshot) {
-      var channel = channelSnapshot.name();
+      var channel = channelSnapshot.key();
       channelSnapshot.forEach(function(feedSnapshot) {
         var feedurl = feedSnapshot.child('url').val()
         feeds.repeat(bot, feedurl, channel);
