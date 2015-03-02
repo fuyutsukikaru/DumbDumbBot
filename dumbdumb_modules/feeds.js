@@ -2,7 +2,7 @@ var irc = require('irc');
 var urlParser = require('url');
 var Firebase = require('firebase');
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
-var feedparser = require('ortoo-feedparser');
+var feedparser = require('feedparser');
 
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");

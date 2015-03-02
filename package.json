@@ -17,7 +17,7 @@
     "get-youtube-id": "latest",
     "youtube-node": "latest",
     "firebase": "latest",
-    "ortoo-feedparser": "latest"
+    "feedparser": "latest"
   },
   "homepage": "http://moe-alternative.net/"
 }
