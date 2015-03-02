@@ -8,12 +8,16 @@
     "url": "https://github.com/fuyutsukikaru/DumbDumbBot.git"
   },
   "dependencies": {
-    "irc": ">=0.3.6",
-    "express": "3.x",
-    "oauth": ">=0.1.3",
-    "twit": ">=1.1.18",
+    "irc": "latest",
+    "express": "latest",
+    "oauth": "latest",
+    "twit": "latest",
     "request": "latest",
-    "cheerio": "latest"
+    "cheerio": "latest",
+    "get-youtube-id": "latest",
+    "youtube-node": "latest",
+    "firebase": "latest",
+    "ortoo-feedparser": "latest"
   },
   "homepage": "http://moe-alternative.net/"
 }
