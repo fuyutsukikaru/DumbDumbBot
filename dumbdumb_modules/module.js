@@ -120,7 +120,7 @@ module.exports = function(bot) {
           console.log(error);
         } else {
           bot.say(to, colorize("Feed added!"));
-          feeds.repeat(bot, rest, chanName);
+          //feeds.repeat(bot, rest, chanName);
         }
       });
     }
