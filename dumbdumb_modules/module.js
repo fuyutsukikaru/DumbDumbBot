@@ -17,7 +17,7 @@ var tsundere_list = {
   "#bugmoney": false,
   "#hapchannel": false,
   "#qd": false,
-  "chromatiqa": false,
+  "#chromatiqa": false,
   "#tanoshimi": false,
   "#critics-conn": false
 }
@@ -31,10 +31,8 @@ function loadfeeds(bot) {
   feedRef.once('value', function(dataSnapshot) {
     dataSnapshot.forEach(function(channelSnapshot) {
       var channel = channelSnapshot.name();
-      console.log(channel);
       channelSnapshot.forEach(function(feedSnapshot) {
         var feedurl = feedSnapshot.child('url').val()
-        console.log(feedurl);
         feeds.repeat(bot, feedurl, channel);
       });
     });
@@ -44,7 +42,7 @@ function loadfeeds(bot) {
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    //loadfeeds(bot);
+    loadfeeds(bot);
   });
   // Listeners for when people join the lobby
   bot.addListener("join", function(channel, nick, message) {
@@ -62,7 +60,7 @@ module.exports = function(bot) {
   bot.addListener("message", function(from, to, text, message) {
     text = text.trim();
     var arr = text.split(" ", 2);
-    var command = arr[0];
+    var command = arr[0].toLowerCase();
     var rest = text.substr(text.indexOf(' ') + 1);
 
     if (tsundere_list[to] == true) {
@@ -80,6 +78,7 @@ module.exports = function(bot) {
     var lewd = /\b(one|1) sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
+    var pls = /\b(ddb|dumbdumbbot) pls\b/i;
 
     var nohash = chan.exec(to);
     var chanName = nohash[0];
@@ -120,7 +119,7 @@ module.exports = function(bot) {
           console.log(error);
         } else {
           bot.say(to, colorize("Feed added!"));
-          //feeds.repeat(bot, rest, chanName);
+          feeds.repeat(bot, rest, chanName);
         }
       });
     }
@@ -177,6 +176,10 @@ module.exports = function(bot) {
     }
     if (inuit.test(text)) {
       bot.say(to, colorize("INUIT TOO"));
+    }
+    if (pls.test(text)) {
+      bot.say(to, colorize("申し訳ありません" + from + "さま"));
+      bot.action(to, "feels hella bad.");
     }
     // Thanks and Bless You detected with regex
     if (thanksRegex.exec(text)) {
