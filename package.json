@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "irc": "latest",
-    "express": "latest",
+    "express": "3.x",
     "oauth": "latest",
     "twit": "latest",
     "request": "latest",
