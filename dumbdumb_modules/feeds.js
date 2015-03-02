@@ -23,7 +23,7 @@ function feedstart(bot, url, receiver) {
     });
     (function repeat() {
       feedparser.parseUrl(url).on('article', function (article) {
-        if (article) {
+        if (typeof article !== 'undefined') {
           var title = article.title;
           var data = title + " " + article.link;
           var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
