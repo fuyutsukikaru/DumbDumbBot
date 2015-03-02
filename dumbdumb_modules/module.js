@@ -5,7 +5,7 @@ var irc = require("irc");
 var scrape = require('./scrape.js');
 var aikatsu = require('./shindans/aikatsu.js');
 var fs = require('fs');
-var feeds = require("./feeds");
+var feeds = require("./feeds.js");
 var Firebase = require('firebase');
 var youtube = require('youtube-node');
 var youtubeid = require('get-youtube-id');
@@ -44,7 +44,7 @@ function loadfeeds(bot) {
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    //loadfeeds(bot);
+    loadfeeds(bot);
   });
   // Listeners for when people join the lobby
   bot.addListener("join", function(channel, nick, message) {
@@ -107,14 +107,13 @@ module.exports = function(bot) {
         }
       }
     }
-    /*if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
       console.log(urlstring2);
       feedRef.child(urlstring2).set({
         url: rest,
-        last: ""
       }, function(error) {
         if (error) {
           bot.say(to, colorize("Could not add feed."));
@@ -137,7 +136,7 @@ module.exports = function(bot) {
           bot.say(to, colorize("Feed removed"));
         }
       });
-    }*/
+    }
     // Commands for detecting urls
     if (command != "!hide" && twitterurl.test(text)) {
       // Matches a Twitter url with a tweet

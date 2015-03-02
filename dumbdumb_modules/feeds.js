@@ -19,46 +19,35 @@ function feedstart(bot, url, receiver) {
   var urlstring2 = urlstring.replace(/\//ig, '__');
   var initial = true;
   var removed = false;
+  var oldFeeds = feedRef.child(urlstring2).child("old");
   if (url != "") {
     feedRef.once('child_removed', function(oldChildSnapshot) {
-      //console.log(oldChildSnapshot.child('url').val());
       if (oldChildSnapshot.child('url').val() == url) {
         removed = true;
-        console.log("Feed removed.");
       }
     });
     (function repeat() {
       var time = salt().toString();
-      var feed = new gfeed.Feed(url + "?t=" + time);
-      var last;
-      feedRef.once('value', function(dataSnapshot) {
-        last = dataSnapshot.child(urlstring2).child('last').val();
-        feed.setNumEntries(1);
-        feed.listItems(function(items) {
-          if (!items.error && (typeof items !== 'undefined')) {
-            var data = items[0].title + " " + items[0].link;
-            if (data != last) {
-              console.log(data);
+      var feed = new gfeed.Feed(url + "?bypass_cache=" + Date.now() / 30000);
+      feed.setNumEntries(1);
+      feed.listItems(function(items) {
+        if (!items.error && (typeof items !== 'undefined')) {
+          var title = items[0].title;
+          var data = title + " " + items[0].link;
+          oldFeeds.child(title).once('value', function (snapshot) {
+            var exists = (snapshot.val() !== null);
+            if (!exists) {
               if (!initial) {
                 bot.say("#" + receiver, colorize(data));
               }
-              //last = data;
-              feedRef.child(urlstring2).child('last').set(data);
+              oldFeeds.child(title).set(data);
               initial = false;
-            } else {
-              //console.log(data);
-              //console.log("Nothing new on " + url);
-              //bot.say("#" + receiver, "Nothing new on " + url);
             }
-          } else {
-            console.log(items.error);
-            console.log("Error on " + receiver + " " + url);
-          }
-          if (!removed)
-            setTimeout(repeat, 30000);
-          else
-            console.log("Feed was removed.");
-        });
+          });
+        }
+        if (!removed) {
+          setTimeout(repeat, 30000);
+        }
       });
     })();
   }
