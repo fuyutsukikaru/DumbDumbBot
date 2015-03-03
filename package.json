@@ -11,12 +11,12 @@
     "irc": "latest",
     "express": "3.x",
     "oauth": "latest",
-    "twit": "latest",
+    "twit": "1.1.18",
     "request": "latest",
     "cheerio": "latest",
-    "get-youtube-id": "latest",
-    "youtube-node": "latest",
-    "firebase-node": "latest",
+    "get-youtube-id": "0.1.3",
+    "youtube-node": "1.0.1",
+    "firebase": "latest",
     "feedparser": "latest"
   },
   "homepage": "http://moe-alternative.net/"
