@@ -16,8 +16,7 @@
     "cheerio": "latest",
     "get-youtube-id": "0.1.3",
     "youtube-node": "1.0.1",
-    "firebase": "latest",
-    "feedparser": "latest"
+    "firebase": "latest"
   },
   "homepage": "http://moe-alternative.net/"
 }

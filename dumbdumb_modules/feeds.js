@@ -2,7 +2,7 @@ var irc = require('irc');
 var urlParser = require('url');
 var Firebase = require('firebase');
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
-var feedparser = require('feedparser');
+var feedparser = require('ortoo-feedparser');
 
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
@@ -22,12 +22,12 @@ function feedstart(bot, url, receiver) {
       }
     });
     (function repeat() {
-      feedparser.parseUrl(url).on('article', function (article) {
+      feedparser.parseUrl(url).on('article', function(article) {
         try {
           var title = article.title;
           var data = title + " " + article.link;
           var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
-          oldFeeds.child(escTitle).once('value', function (snapshot) {
+          oldFeeds.child(escTitle).once('value', function(snapshot) {
             var exists = (snapshot.val() !== null);
             if (!exists) {
               bot.say("#" + receiver, colorize(data));
