@@ -31,8 +31,9 @@ function loadfeeds(bot) {
   feedRef.once('value', function(dataSnapshot) {
     dataSnapshot.forEach(function(channelSnapshot) {
       var channel = channelSnapshot.key();
+      console.log(channel);
       channelSnapshot.forEach(function(feedSnapshot) {
-        var feedurl = feedSnapshot.child('url').val()
+        var feedurl = feedSnapshot.child('url').val();
         feeds.repeat(bot, feedurl, channel);
       });
     });

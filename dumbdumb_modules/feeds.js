@@ -22,23 +22,27 @@ function feedstart(bot, url, receiver) {
       }
     });
     (function repeat() {
-      feedparser.parseUrl(url).on('article', function(article) {
-        try {
-          var title = article.title;
-          var data = title + " " + article.link;
-          var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
-          oldFeeds.child(escTitle).once('value', function(snapshot) {
-            var exists = (snapshot.val() !== null);
-            if (!exists) {
-              bot.say("#" + receiver, colorize(data));
-              oldFeeds.child(escTitle).set(data);
-            }
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      });
-
+      try {
+        feedparser.parseUrl(url).on('article', function(article) {
+          try {
+            var title = article.title;
+            var data = title + " " + article.link;
+            var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
+            oldFeeds.child(escTitle).once('value', function(snapshot) {
+              var exists = (snapshot.val() !== null);
+              if (!exists) {
+                bot.say("#" + receiver, colorize(data));
+                oldFeeds.child(escTitle).set(data);
+              }
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        });
+      } catch (e) {
+        console.error(e);
+        feedRef.child(urlstring2).remove();
+      }
       if (!removed) {
         setTimeout(repeat, 30000);
       }
