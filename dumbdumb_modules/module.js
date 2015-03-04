@@ -93,7 +93,7 @@ module.exports = function(bot) {
     var day = d.getDay();
     var year = d.getFullYear();
     var month = d.getMonth();
-    var val = (len + first + last) * (date + first + year) * (day + last + month) * (day + first + len) * (month + date + last);
+    var val = (len + first + last) * (date + first + year) * (day + last + month) * (month + date);
 
     if (command == "!hi" || command == "!sup") {
       if (from == "DDK") {
