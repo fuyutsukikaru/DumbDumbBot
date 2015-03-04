@@ -41,6 +41,7 @@ function feedstart(bot, url, receiver) {
         });
       } catch (e) {
         console.error(e);
+        bot.say("#" + receiver, colorize("The feed url was not valid, try again."));
         feedRef.child(urlstring2).remove();
       }
       if (!removed) {
