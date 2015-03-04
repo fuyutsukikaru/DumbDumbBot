@@ -23,7 +23,7 @@ function feedstart(bot, url, receiver) {
     });
     (function repeat() {
       feedparser.parseUrl(url).on('article', function (article) {
-        if (article) {
+        try {
           var title = article.title;
           var data = title + " " + article.link;
           var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
@@ -34,6 +34,8 @@ function feedstart(bot, url, receiver) {
               oldFeeds.child(escTitle).set(data);
             }
           });
+        } catch (e) {
+          console.error(e);
         }
       });
 
