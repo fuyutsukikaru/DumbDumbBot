@@ -43,6 +43,7 @@ function feedstart(bot, url, receiver) {
         console.error(e);
         bot.say("#" + receiver, colorize("The feed url was not valid, try again."));
         feedRef.child(urlstring2).remove();
+        return;
       }
       if (!removed) {
         setTimeout(repeat, 30000);
