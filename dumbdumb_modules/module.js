@@ -140,7 +140,7 @@ module.exports = function(bot) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       feedRef.once('value', function(dataSnapshot) {
         dataSnapshot.forEach(function(urlSnapshot) {
-          bot.say(to, colorize(urlSnapshot.url));
+          bot.say(to, colorize(urlSnapshot.child("url").val()));
         });
       });
     }
