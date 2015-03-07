@@ -23,6 +23,7 @@ function feedstart(bot, url, receiver) {
     });
     (function repeat() {
       try {
+        var counter = 0;
         feedparser.parseUrl(url).on('article', function(article) {
           try {
             var title = article.title;
@@ -31,7 +32,10 @@ function feedstart(bot, url, receiver) {
             oldFeeds.child(escTitle).once('value', function(snapshot) {
               var exists = (snapshot.val() !== null);
               if (!exists) {
-                bot.say("#" + receiver, colorize(data));
+                if (counter < 5) {
+                  bot.say("#" + receiver, colorize(data));
+                  counter++;
+                }
                 oldFeeds.child(escTitle).set(data);
               }
             });

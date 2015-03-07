@@ -74,7 +74,8 @@ module.exports = function(bot) {
     var blessyouRegex = /bless you\W(\w*)$/i;
     var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
     var vndburl = /\b(http|https):\/\/(www.)?vndb.org\/v[0-9]+\b/;
-    var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch\?v=[\w|\W]+\b/;
+    //var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch\?v=[\w|\W]+\b/;
+    var youtubeurl = /\b(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)(\w*)(&(amp;)?[\w\?=]*)?\b/;
     var lewd = /\b(one|1) sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
@@ -82,6 +83,8 @@ module.exports = function(bot) {
 
     var nohash = chan.exec(to);
     var chanName = nohash[0];
+
+    var dolphy = (from == "Dolphy" || from == "NotDolphy");
 
     // Use the person's ID and the date to calculate a value
     var len = from.length;
@@ -106,7 +109,7 @@ module.exports = function(bot) {
         }
       }
     }
-    if (command == "!addfeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    if (command == "!addfeed" && (dolphy || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
@@ -123,7 +126,7 @@ module.exports = function(bot) {
         }
       });
     }
-    if (command == "!removefeed" && (from == "Dolphy" || from == "Kasuteru" || from == "fuyutsukikaru")) {
+    if (command == "!removefeed" && (dolphy || from == "Kasuteru" || from == "fuyutsukikaru")) {
       var feedRef = firebaseRef.child("feeds/" + chanName);
       var urlstring = rest.replace(/\./ig, ',');
       var urlstring2 = urlstring.replace(/\//ig, '__');
