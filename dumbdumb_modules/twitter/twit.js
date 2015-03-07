@@ -84,14 +84,20 @@ function search(num, bot, receiver) {
           tweetUrls = tweet.replace(data.entities.urls[i].url, data.entities.urls[i].expanded_url);
           tweet = tweetUrls;
         }
-        if (typeof data.entities.media[0] !== 'undefined') {
-          console.log(data.entities.media[0].url);
-          console.log(data.entities.media[0].display_url);
+        if (typeof data.entities.media !== 'undefined') {
           tweetMedia = tweet.replace(data.entities.media[0].url, data.entities.media[0].display_url);
           tweet = tweetMedia;
         }
-        var result = data.user.screen_name + "-sama tweeted: " + tweet;
-        bot.say(receiver, colorize(result));
+        var tweetSplit = tweet.split('\n\n');
+        for (var i = 0; i < tweetSplit.length; i++) {
+          var result;
+          if (i == 0) {
+            result = data.user.screen_name + "-sama tweeted: " + tweetSplit[i];
+          } else {
+            result = tweetSplit[i];
+          }
+          bot.say(receiver, colorize(result));
+        }
       } else {
         bot.say(receiver, colorize("Could not retrieve tweet."));
       }

@@ -24,6 +24,9 @@ function feedstart(bot, url, receiver) {
     (function repeat() {
       try {
         var counter = 0;
+        feedparser.parseUrl(url).on('error', function(error) {
+          console.error(e);
+        });
         feedparser.parseUrl(url).on('article', function(article) {
           try {
             var title = article.title;
