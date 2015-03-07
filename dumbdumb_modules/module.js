@@ -31,7 +31,6 @@ function loadfeeds(bot) {
   feedRef.once('value', function(dataSnapshot) {
     dataSnapshot.forEach(function(channelSnapshot) {
       var channel = channelSnapshot.key();
-      console.log(channel);
       channelSnapshot.forEach(function(feedSnapshot) {
         var feedurl = feedSnapshot.child('url').val();
         feeds.repeat(bot, feedurl, channel);
@@ -137,30 +136,31 @@ module.exports = function(bot) {
         }
       });
     }
+    if (command == "!listfeed") {
+      var feedRef = firebaseRef.child("feeds/" + chanName);
+      feedRef.once('value', function(dataSnapshot) {
+        dataSnapshot.forEach(function(urlSnapshot) {
+          bot.say(to, colorize(urlSnapshot.url);
+        });
+      });
+    }
     // Commands for detecting urls
     if (command != "!hide" && twitterurl.test(text)) {
       // Matches a Twitter url with a tweet
-      console.log("Matched twitter url");
       var twitterid = /status\/[0-9]+\b/;
       var statusid = twitterid.exec(text);
-      console.log(statusid[0]);
       var id = /[0-9]+\b/.exec(statusid[0]);
-      console.log(id[0]);
       twitter.search(id[0], bot, to);
     }
     if (youtubeurl.test(text) && command != "!hide") {
       // Matches a YouTube url
       var urls = youtubeurl.exec(text);
       youtube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
-      console.log("Match youtube link!");
       var id = youtubeid(urls[0]);
-      console.log(id);
       youtube.getById(id, function(resultData) {
         if (!resultData.error) {
-          console.log(resultData);
           bot.say(to, colorize(resultData.items[0].snippet.title));
         } else {
-          console.log(resultData.error);
           bot.say(to, colorize("Could not get title."));
         }
       });
@@ -168,7 +168,6 @@ module.exports = function(bot) {
     if (command != "!hide" && vndburl.test(text)) {
       // Detects a vndb url
       var urls = vndburl.exec(text);
-      console.log("Match vndb link!");
       scrape.scraper(urls[0], bot, to);
     }
     // Features requested by dolphy
