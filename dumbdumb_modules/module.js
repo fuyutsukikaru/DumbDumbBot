@@ -42,7 +42,7 @@ function loadfeeds(bot) {
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    loadfeeds(bot);
+    //loadfeeds(bot);
   });
   // Listeners for when people join the lobby
   bot.addListener("join", function(channel, nick, message) {
