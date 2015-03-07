@@ -3,6 +3,7 @@ var urlParser = require('url');
 var Firebase = require('firebase');
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
 var feedparser = require('ortoo-feedparser');
+var request = require('request');
 
 function colorize(text) {
   return irc.colors.wrap("light_magenta", text, "light_magenta");
@@ -24,26 +25,29 @@ function feedstart(bot, url, receiver) {
     (function repeat() {
       try {
         var counter = 0;
-        feedparser.parseUrl(url).on('error', function(error) {
-          console.error(e);
-        });
-        feedparser.parseUrl(url).on('article', function(article) {
-          try {
-            var title = article.title;
-            var data = title + " " + article.link;
-            var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
-            oldFeeds.child(escTitle).once('value', function(snapshot) {
-              var exists = (snapshot.val() !== null);
-              if (!exists) {
-                if (counter < 5) {
-                  bot.say("#" + receiver, colorize(data));
-                  counter++;
-                }
-                oldFeeds.child(escTitle).set(data);
+        var reqObj = {'uri': url};
+        request(reqObj, function(err, resp, body) {
+          console.log(err);
+          if (!err) {
+            feedparser.parseString(body).on('article', function(article) {
+              try {
+                var title = article.title;
+                var data = title + " " + article.link;
+                var escTitle = title.replace(/\'|\"|\.|\$|\/|\#|\[|\]/g, '_');
+                oldFeeds.child(escTitle).once('value', function(snapshot) {
+                  var exists = (snapshot.val() !== null);
+                  if (!exists) {
+                    if (counter < 5) {
+                      bot.say("#" + receiver, colorize(data));
+                      counter++;
+                    }
+                    oldFeeds.child(escTitle).set(data);
+                  }
+                });
+              } catch (e) {
+                console.error(e);
               }
             });
-          } catch (e) {
-            console.error(e);
           }
         });
       } catch (e) {
