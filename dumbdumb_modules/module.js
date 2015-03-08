@@ -34,7 +34,7 @@ function loadfeeds(bot) {
       channelSnapshot.forEach(function(feedSnapshot) {
         if (!feedSnapshot.hasChild('url')) {
           var feedname = feedSnapshot.key();
-          channelSnapshot.child(feedname).remove();
+          feedRef.child(channel).child(feedname).remove();
         } else {
           var feedurl = feedSnapshot.child('url').val();
           try {
