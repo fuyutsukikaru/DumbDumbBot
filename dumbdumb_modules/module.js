@@ -33,7 +33,11 @@ function loadfeeds(bot) {
       var channel = channelSnapshot.key();
       channelSnapshot.forEach(function(feedSnapshot) {
         var feedurl = feedSnapshot.child('url').val();
-        feeds.repeat(bot, feedurl, channel);
+        try {
+          feeds.repeat(bot, feedurl, channel);
+        } catch (e) {
+          console.error(e);
+        }
       });
     });
   });
