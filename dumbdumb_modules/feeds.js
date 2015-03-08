@@ -27,7 +27,6 @@ function feedstart(bot, url, receiver) {
         var counter = 0;
         var reqObj = {'uri': url};
         request(reqObj, function(err, resp, body) {
-          console.log(err);
           if (!err) {
             feedparser.parseString(body).on('article', function(article) {
               try {

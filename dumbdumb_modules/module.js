@@ -32,11 +32,15 @@ function loadfeeds(bot) {
     dataSnapshot.forEach(function(channelSnapshot) {
       var channel = channelSnapshot.key();
       channelSnapshot.forEach(function(feedSnapshot) {
-        var feedurl = feedSnapshot.child('url').val();
-        try {
-          feeds.repeat(bot, feedurl, channel);
-        } catch (e) {
-          console.error(e);
+        if (!feedSnapshot.hasChild('url')) {
+          feedSnapshot.remove();
+        } else {
+          var feedurl = feedSnapshot.child('url').val();
+          try {
+            feeds.repeat(bot, feedurl, channel);
+          } catch (e) {
+            console.error(e);
+          }
         }
       });
     });
