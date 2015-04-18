@@ -376,8 +376,8 @@ module.exports = function(bot) {
     }
     // Aikatsu shindan
     if (command == "!aikatsu") {
-      //var fashion = aikatsu.fashion;
-      var fashion = pripara.pripara;
+      var fashion = aikatsu.fashion;
+      //var fashion = pripara.pripara;
       var hash = val % fashion.length;
       var brand = fashion[hash];
       bot.say(to, colorize("Today your Aikatsu brand is " + brand));
