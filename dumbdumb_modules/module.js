@@ -204,7 +204,7 @@ module.exports = function(bot) {
         thanked = "Th" + truncatedMatch
         bot.say(to, colorize(thanked));
       } else {
-        bot.say(to, colorize("Pshuu");
+        bot.say(to, colorize("Pshuu"));
       }
     }
     if (blessyouRegex.exec(text)) {
@@ -215,7 +215,7 @@ module.exports = function(bot) {
         thanked = "Bl" + truncatedMatch
         bot.say(to, colorize(thanked));
       } else {
-        bot.say(to, colorize("Pshuu");
+        bot.say(to, colorize("Pshuu"));
       }
     }
     // Looks of approval and disapproval
