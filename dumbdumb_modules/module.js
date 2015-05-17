@@ -200,8 +200,7 @@ module.exports = function(bot) {
       matchWord = thanksRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
-      console.log(truncatedMatch);
-      if (!truncatedMatch || typeof truncatedMatch !== null) {
+      if (truncatedMatch !== null) {
         thanked = "Th" + truncatedMatch
         bot.say(to, colorize(thanked));
       } else {
@@ -212,7 +211,7 @@ module.exports = function(bot) {
       matchWord = blessyouRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
-      if (!truncatedMatch || typeof truncatedMatch !== null) {
+      if (truncatedMatch === null) {
         thanked = "Bl" + truncatedMatch
         bot.say(to, colorize(thanked));
       } else {
