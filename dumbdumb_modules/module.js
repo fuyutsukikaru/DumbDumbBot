@@ -8,7 +8,7 @@ var pripara = require('./shindans/pripara.js');
 var fs = require('fs');
 var feeds = require("./feeds.js");
 var Firebase = require('firebase');
-var youtube = require('youtube-node');
+var YouTube = require('youtube-node');
 var youtubeid = require('get-youtube-id');
 
 var firebaseRef = new Firebase("https://dumbdumbbot.firebaseio.com/");
@@ -68,6 +68,7 @@ module.exports = function(bot) {
   });
   // Listen for any message, say to him/her in the room
   bot.addListener("message", function(from, to, text, message) {
+    try {
     text = text.trim();
     var arr = text.split(" ", 2);
     var command = arr[0].toLowerCase();
@@ -84,8 +85,7 @@ module.exports = function(bot) {
     var blessyouRegex = /bless you\W(\w*)$/i;
     var twitterurl = /\b(https|http):\/\/(www.)?twitter.com\/[\w]+\/status\/[0-9]+\b/;
     var vndburl = /\b(http|https):\/\/(www.)?vndb.org\/v[0-9]+\b/;
-    //var youtubeurl = /\b(http|https):\/\/(www.)?youtube.com\/watch\?v=[\w|\W]+\b/;
-    var youtubeurl = /\b(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)(\w*)(&(amp;)?[\w\?=]*)?\b/;
+    var youtubeurl = /\b(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)(\w*)(&(amp;)?[\w\?=]*)?\-?\w*\b/;
     var lewd = /\b(one|1) sec\b/i;
     var inuit = /\binuit\b/i;
     var chan = /\b[\w]+\b/i;
@@ -168,11 +168,12 @@ module.exports = function(bot) {
     if (youtubeurl.test(text) && command != "!hide") {
       // Matches a YouTube url
       var urls = youtubeurl.exec(text);
-      youtube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
+      var youtube = new YouTube();
+      youtube.setKey('AIzaSyB3zgUs5u4hXdf6UgUZRalu70WdwaSWgJ4');
       var id = youtubeid(urls[0]);
-      youtube.getById(id, function(resultData) {
-        if (!resultData.error) {
-          bot.say(to, colorize(resultData.items[0].snippet.title));
+      youtube.getById(id, function(error, result) {
+        if (!error) {
+          bot.say(to, colorize(result.items[0].snippet.title));
         } else {
           bot.say(to, colorize("Could not get title."));
         }
@@ -199,15 +200,23 @@ module.exports = function(bot) {
       matchWord = thanksRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
-      thanked = "Th" + truncatedMatch
-      bot.say(to, colorize(thanked));
+      if (!truncatedMatch) {
+        thanked = "Th" + truncatedMatch
+        bot.say(to, colorize(thanked));
+      } else {
+        bot.say(to, colorize("Pshuu");
+      }
     }
     if (blessyouRegex.exec(text)) {
       matchWord = blessyouRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
-      thanked = "Bl" + truncatedMatch
-      bot.say(to, colorize(thanked));
+      if (!truncatedMatch) {
+        thanked = "Bl" + truncatedMatch
+        bot.say(to, colorize(thanked));
+      } else {
+        bot.say(to, colorize("Pshuu");
+      }
     }
     // Looks of approval and disapproval
     if (command == "!loa") {
@@ -483,5 +492,8 @@ module.exports = function(bot) {
       bot.say(to, colorize("Enter !senpai to ask DumbDumbBot if senpai has noticed you."));
       bot.say(to, colorize("Enter !:O, !:(, !XD, !>_< to have DumbDumbBot express its emotions."));
     }
+  } catch(e) {
+    console.log(e);
+  }
   });
 };
