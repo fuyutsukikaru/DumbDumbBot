@@ -211,7 +211,7 @@ module.exports = function(bot) {
       matchWord = blessyouRegex.exec(text)[1].toLowerCase();
       truncatedRegex = /[aeiou].*/;
       truncatedMatch = truncatedRegex.exec(matchWord);
-      if (truncatedMatch === null) {
+      if (truncatedMatch !== null) {
         thanked = "Bl" + truncatedMatch
         bot.say(to, colorize(thanked));
       } else {
@@ -357,7 +357,7 @@ module.exports = function(bot) {
       var characters = sakis.characters;
       var hash = val % characters.length;
       var saki = characters[hash];
-      if (from == "Dolphy" || from == "CureRMN") {
+      if (from == "Dolphy" || from == "CureRMN" || from == "NotDolphy") {
         hash = val % 2;
         if (hash == 0)
           saki = characters[2];
@@ -456,10 +456,11 @@ module.exports = function(bot) {
       if (from == "DDK")
         bot.say(to, colorize(";)"));
       else {
-        if (tsundere)
+        if (tsundere) {
           bot.say(to, colorize("I-It's not like I'm saving that smile for somebody or anything!!!"));
-        else
+        } else {
           bot.say(to, colorize("I want to protect that smile for the one I truly love."));
+        }
       }
     }
     if (command == "!:9") {
@@ -477,6 +478,9 @@ module.exports = function(bot) {
       for (n = 0; n < rows; n++) {
         bot.say(to, colorize(mibucchi[n]));
       }
+    }
+    if (command == "!opn") {
+      bot.say(to, colorize("Opn, you're a three year old, stop trying to act like a grown-up you big babby.");
     }
     if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));

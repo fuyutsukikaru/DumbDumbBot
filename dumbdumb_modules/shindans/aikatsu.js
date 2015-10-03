@@ -15,7 +15,8 @@ var fashion = [
   "Sangria Rosa",
   "Sakurairo Kaden",
   "Dance Fusion",
-  "Retro Clover"
+  "Retro Clover",
+  "Dolly Devil"
 ];
 
 exports.fashion = fashion;
