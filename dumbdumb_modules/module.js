@@ -480,7 +480,7 @@ module.exports = function(bot) {
       }
     }
     if (command == "!opn") {
-      bot.say(to, colorize("Opn, you're a three year old, stop trying to act like a grown-up you big babby.");
+      bot.say(to, colorize("Opn, you're a three year old, stop trying to act like a grown-up you big babby."));
     }
     if (command == "!help") {
       bot.say(to, colorize("Enter !hi or !sup to have DumbDumbBot greet you!"));
