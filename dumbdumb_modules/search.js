@@ -10,7 +10,7 @@ module.exports = function(source, query) {
     return "Here are your search results from Google! https://www.google.com/?#q=" + query;
   } else if (source.toLowerCase() == "mal") {
     var query = query.split(' ').join('+');
-    var url = "http://fuyutsukikaru:superflame@myanimelist.net/api/anime/search.xml?q=" + query;
+    var url = "http://username:password@myanimelist.net/api/anime/search.xml?q=" + query;
     return malSearch(url, parse);
   }
 }
