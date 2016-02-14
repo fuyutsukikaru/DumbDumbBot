@@ -17,6 +17,7 @@
     "promise": "^7.1.1",
     "request": "latest",
     "twit": "latest",
+    "xml2js": "^0.4.16",
     "youtube-node": "latest"
   },
   "homepage": "http://moe-alternative.net/"

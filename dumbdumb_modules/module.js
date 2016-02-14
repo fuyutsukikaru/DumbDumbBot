@@ -156,6 +156,20 @@ module.exports = function(bot) {
         "!opn": function() {
           bot.say(to, colorize("Opn, you're a three year old, stop trying to act like a grown-up you big babby."));
         },
+        "!search": function() {
+          var source = rest.substr(0, rest.indexOf(" "));
+          var query = rest.substr(rest.indexOf(" ") + 1);
+          if (source.toLowerCase() == "mal") {
+            require("./search.js")(source, query).then(function(text) {
+              bot.say(to, colorize(text));
+              bot.say(to, colorize("If this is incorrect, please try again with more specific terms."));
+            }, function(text) {
+              bot.say(to, colorize(text));
+            });
+          } else {
+            bot.say(to, colorize(require("./search.js")(source, query)));
+          }
+        },
         "!help": function() {
           bot.say(to, colorize(require("./help.js")(rest)));
         },

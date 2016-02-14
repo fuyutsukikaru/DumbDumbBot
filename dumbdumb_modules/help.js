@@ -1,6 +1,6 @@
 module.exports = function(command) {
   if (!command) {
-    return "Enter !help <command> from these commands to find out more: hi, bye, goaway, countdown, remind, tweet, hide, shindan, roulette, senpai, face, rawr, tsundere, petite, lolicon, person";
+    return "Enter !help <command> from these commands to find out more: hi, bye, goaway, countdown, remind, tweet, search, hide, shindan, roulette, senpai, face, rawr, tsundere, petite, lolicon, person";
   } else {
     var help = {
       "hi": "Enter !hi or !sup to have DumbDumbBot greet you!",
@@ -9,6 +9,7 @@ module.exports = function(command) {
       "countdown": "Enter !countdown <number> to have DumbDumbBot start a countdown! Limited to numbers under 15.",
       "remind": "Enter !remind <minutes> <message> to have DumbDumbBot remind you of things.",
       "tweet": "Enter !tweet <message to send> to post a tweet.",
+      "search": "Enter !search <source> <query> to find something on MAL or Google",
       "hide": "Use the !hide command to prevent DumbDumbBot from posting the titles of YouTube videos and VNs.",
       "shindan": "Enter !saki, !yakuman, !aikatsu, or !pripara to roll a Shindan for the day!",
       "roulette": "Enter !roulette <choices separated by spaces> to have DumbDumbBot randomly pick something for you.",
