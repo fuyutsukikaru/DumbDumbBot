@@ -12,4 +12,12 @@ var pripara = [
   "Pretty Rhythm",
 ];
 
-exports.pripara = pripara;
+module.exports = function(from) {
+  var hash = require("../hash.js")(from) % pripara.length;
+  var brand = pripara[hash];
+  var returns = [];
+  returns.push("Today your Pripara brand is " + brand);
+  var words = brand.split(" ", 2);
+  returns.push("http://pripara.wikia.com/wiki/" + words[0] + "_" + words[1]);
+  return returns;
+}

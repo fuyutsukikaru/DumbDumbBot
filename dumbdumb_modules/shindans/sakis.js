@@ -177,4 +177,34 @@ var sakis = [
   "Kazumi Zenno"
 ];
 
-exports.characters = sakis;
+module.exports = function(from) {
+  var hash = require("../hash.js")(from) % sakis.length;
+  var saki = sakis[hash];
+  if (from == "Dolphy" || from == "CureRMN" || from == "NotDolphy") {
+    hash = hash % 2;
+    if (hash == 0)
+      saki = sakis[2];
+    else if (hash == 1)
+      saki = sakis[105];
+  }
+  else if (from == "fuyutsukikaru" || from == "FuyuOjou") {
+    hash = hash % 2;
+    if (hash == 0)
+      saki = sakis[96];
+    else if (hash == 1)
+      saki = sakis[3];
+  }
+  var returns = [];
+  if (saki == "Maho Yumeno" || saki == "Kaori Senoo") {
+    returns.push("Your spirit Saki today is the worst Saki, " + saki);
+  } else {
+    returns.push("Your spirit Saki today is " + saki);
+  }
+  var chars = saki.split(" ", 2);
+  if (!chars[1]) {
+    returns.push("http://saki.wikia.com/wiki/" + chars[0]);
+  } else {
+    returns.push("http://saki.wikia.com/wiki/" + chars[0] + "_" + chars[1]);
+  }
+  return returns;
+}

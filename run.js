@@ -1,20 +1,11 @@
-var http = require("http");
 var irc = require("irc");
-var pjson = require("./package.json");
 var config = require("./dumbdumb_modules/config");
-var fs = require('fs');
+var express = require("express");
+var app = express();
 
 var bot = new irc.Client(config.server, config.nick, config);
 require("./dumbdumb_modules/module.js")(bot);
 
-fs.readFile('./index.html', function (err, html) {
-  if (err) {
-    throw err;
-  }
-  http.createServer(function(request, response) {
-    console.log("Connected");
-    response.writeHeader(200, {"Content-Type": "text/html"});
-    response.write(html);
-    response.end();
-  }).listen(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 10024, process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+app.listen(8080, function() {
+  console.log('Started DumbDumbBot on port 8080');
 });

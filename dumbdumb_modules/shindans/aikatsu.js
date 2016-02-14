@@ -19,4 +19,12 @@ var fashion = [
   "Dolly Devil"
 ];
 
-exports.fashion = fashion;
+module.exports = function(from) {
+  var hash = require("../hash.js")(from) % fashion.length;
+  var brand = fashion[hash];
+  var returns = [];
+  returns.push("Today your Aikatsu brand is " + brand);
+  var words = brand.split(" ", 2);
+  returns.push("http://aikatsu.wikia.com/wiki/" + words[0] + "_" + words[1]);
+  return returns;
+}

@@ -78,9 +78,43 @@ var mibucchi = [
 "█████████████████████████████████████████████████"
 ];
 
-exports.surprise = surprise;
-exports.sad = sad;
-exports.XD = XD;
-exports.cutie = cutie;
-exports.nine = nine;
-exports.mibucchi = mibucchi;
+module.exports = function(command, rest, from, tsundere) {
+  var result = {
+    "!loa": function() {
+      if (rest) {
+        return [rest + ": ʘ‿ʘ"];
+      }
+      else {
+        return ["ʘ‿ʘ"];
+      }
+    },
+    "!lod": function() {
+      if (rest) {
+        return [rest + ": ಠ_ಠ"];
+      }
+      else {
+        return ["ಠ_ಠ"];
+      }
+    },
+    "!:o": function() { return surprise; },
+    "!:(": function() { return sad; },
+    "!xd": function() { return XD; },
+    "!>_<": function() { return cutie; },
+    "!:)": function() {
+      if (from == "DDK")
+        return [";)"];
+      else {
+        if (tsundere) {
+          return ["I-It's not like I'm saving that smile for somebody or anything!!!"];
+        } else {
+          return ["I want to protect that smile for the one I truly love."];
+        }
+      }
+    },
+    "!:9": function() { return nine; },
+    "!mibucchi": function() { return mibucchi; },
+    "!meball": function() { return mibucchi; },
+    "default": function() { return []; }
+  }
+  return (result[command] || result["default"])();
+}

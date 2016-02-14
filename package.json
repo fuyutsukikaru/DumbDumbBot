@@ -1,7 +1,7 @@
 {
   "name": "DumbDumbBot",
   "description": "It's a bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "run.js",
   "repository": {
     "type": "git",
@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "cheerio": "latest",
+    "express": "^4.13.4",
     "firebase": "latest",
     "get-youtube-id": "latest",
     "irc": "latest",
     "oauth": "latest",
+    "promise": "^7.1.1",
     "request": "latest",
     "twit": "latest",
     "youtube-node": "latest"
