@@ -8,7 +8,30 @@ var go = [
   "Go fish",
   "五",
   "GOOOOOOOOOOOO!!!!!!!!",
-  "GO!?!"
+  "GO!?!",
+  "行くぞぉぉ",
+  "行きます",
+  "行きますよぉ~",
+  "pshuu",
+  "いきま~す",
+  "行くわよ",
+  "START",
+  "igo",
+  "Dolphy is the best imo",
+  "igo yoroshiku~",
+  "cure up rapapa",
+  "Am I just a robot to you???",
+  "butts",
+  "7",
+  "OOOOHOHOHOHOHOHOHO",
+  "fufufu",
+  "kakaka",
+  "You guys probably messed up the timing。",
+  "du du wa do it",
+  "STOP",
+  "てへぺろ",
+  "gopher",
+  "go home"
 ];
 
 module.exports = function(number, tsundere) {
@@ -21,11 +44,15 @@ module.exports = function(number, tsundere) {
     } else {
       returns.push("Starting!");
     }
-    for (var i = number; i >= 0; i--) {
+    for (var i = number; i > 0; i--) {
       returns.push(i);
     }
-    var random = Math.floor((Math.random() * go.length))
-    returns.push(go[random]);
+    var random = Math.floor((Math.random() * go.length));
+    if (tsundere) {
+      returns.push("死ね");
+    } else {
+      returns.push(go[random]);
+    }
   } else if (number == "next tourney") {
     returns.push("Never.");
   } else {

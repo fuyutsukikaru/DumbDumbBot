@@ -18,7 +18,7 @@ var tsundere_list = {
 module.exports = function(bot) {
 
   bot.addListener("registered", function(message) {
-    //feeds.loadfeeds(bot);
+    feeds.loadfeeds();
   });
   // Listeners for when people join the lobby
   bot.addListener("join", function(channel, nick, message) {
@@ -77,17 +77,29 @@ module.exports = function(bot) {
           bot.say(to, colorize(greetings.rawr(tsundere)));
         },
         "!addfeed": function() {
-          if (dolphy || from == "Kasuteru" || from == "fuyutsukikaru") {
-            //feeds.addfeed(chanName, rest);
+          if (dolphy || from == "Kasuteru" || from == "fuyutsukikaru" || from == "FuyuOjou") {
+            feeds.addfeed(chanName, rest).then(function(text) {
+              bot.say(to, colorize(text));
+            }, function(text) {
+              bot.say(to, colorize(text));
+            });
           }
         },
         "!removefeed": function() {
-          if (dolphy || from == "Kasuteru" || from == "fuyutsukikaru") {
-            //feeds.removefeed(chanName, rest);
+          if (dolphy || from == "Kasuteru" || from == "fuyutsukikaru" || from == "FuyuOjou") {
+            feeds.removefeed(chanName, rest).then(function(text) {
+              bot.say(to, colorize(text));
+            }, function(text) {
+              bot.say(to, colorize(text));
+            });
           }
         },
         "!listfeed": function() {
-          //feeds.listfeed(chanName);
+          feeds.listfeed(chanName).then(function(dataSnapshot) {
+            dataSnapshot.forEach(function(childSnapshot) {
+              bot.say(to, colorize(childSnapshot.child("url").val()));
+            });
+          });
         },
         "!tsundere": function() {
           if (rest == "on") {
