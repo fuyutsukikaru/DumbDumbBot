@@ -1,5 +1,5 @@
 var config = {
-  channels: ["#bugmoney", "#hapchannel", "#qd", "#chromatiqa", "#tanoshimi", "#critics-conn", "#anitwitter"],
+  channels: ["#hapchannel", "#qd", "#tanoshimi", "#critics-conn", "#anitwitter"],
   //channels: ["#thugmoney"],
   server: "irc.rizon.net",
   nick: "DumbDumbBot",
@@ -9,7 +9,7 @@ var config = {
   autoRejoin: true,
   autoConnect: true,
   floodProtection: true,
-  floodProtectionDelay: "1000",
+  floodProtectionDelay: "500",
   messageSplit: "512",
   debug: false,
   showErrors: false,
