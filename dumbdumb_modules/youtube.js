@@ -4,7 +4,7 @@ var Promise = require('promise');
 
 module.exports = function(urls) {
   var youtube = new YouTube();
-  youtube.setKey('AIzaSyB3zgUs5u4hXdf6UgUZRalu70WdwaSWgJ4');
+  youtube.setKey('');
   var id = youtubeid(urls[0]);
   return new Promise(function(fulfill, reject) {
     youtube.getById(id, function(error, result) {
